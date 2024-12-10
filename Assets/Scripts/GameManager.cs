@@ -4,15 +4,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI instructionsText; 
-    [SerializeField] TextMeshProUGUI scoreText; 
-    [SerializeField] TextMeshProUGUI timerText; 
-    [SerializeField] GameObject[] shapes; 
+    [SerializeField] TextMeshProUGUI instructionsText;
+    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] GameObject[] shapes;
 
-    private int score = 0; 
-    private int shapesClicked = 0; 
-    [SerializeField] float timeRemaining = 30f; 
-    private bool isGameOver = false; 
+    private int score = 0;
+    private int shapesClicked = 0;
+    [SerializeField] float timeRemaining = 30f;
+    private bool isGameOver = false;
 
     [SerializeField] string sceneName;
 
@@ -30,11 +30,12 @@ public class GameManager : MonoBehaviour
 
             if (timeRemaining <= 0f)
             {
-                timeRemaining = 0f; 
+                timeRemaining = 0f;
                 isGameOver = true;
                 instructionsText.text = "Good job! Final Score: " + score;
                 Invoke("GoToNextLevel", 2f); // Go to next level after a delay
             }
+
             UpdateTimer();
         }
     }
@@ -75,7 +76,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName); // Load next level
     }
 
-    // Restart the current level
     void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload the current scene
