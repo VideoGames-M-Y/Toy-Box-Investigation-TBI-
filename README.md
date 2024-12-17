@@ -13,3 +13,7 @@
 מטלה שבוע 4:
 
 https://matanyocheved.itch.io/ex4-tbi
+
+---
+## קישור למסמך docs המפרט על מבנה השלבים:
+https://docs.google.com/document/d/1VZ0t1jzvILKHHKYzHuMvTYG7HqplPuW26-UWhsC5NbE/edit?tab=t.0
