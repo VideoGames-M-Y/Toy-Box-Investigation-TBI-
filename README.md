@@ -10,7 +10,7 @@
 
 ---
 
-##מטלה  4:
+## מטלה 4:
 
 https://matanyocheved.itch.io/ex4-tbi
 
