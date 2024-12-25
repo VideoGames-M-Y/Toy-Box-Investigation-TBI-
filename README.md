@@ -10,6 +10,10 @@
 
 ---
 
-מטלה שבוע 4:
+##מטלה  4:
 
 https://matanyocheved.itch.io/ex4-tbi
+
+---
+## מטלה 6:
+https://matanyocheved.itch.io/toyboxinvestigation-intro1
