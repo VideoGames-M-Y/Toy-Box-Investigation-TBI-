@@ -4,34 +4,40 @@ using TMPro;
 
 public class SockCollector : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI socksCounterText; // UI text for the socks counter
-    [SerializeField] private int totalSocks = 6; // Total number of socks to collect
-    private int socksLeft; // Number of socks collected
+    [SerializeField]
+    private TextMeshProUGUI socksCounterText; // UI text for the socks counter
 
+    [SerializeField]
+    private int totalSocks = 6; // Total number of socks to collect
+
+    private int socksLeft; // Number of socks collected
     private GameObject blueSockFollowingPlayer = null; // Tracks the BlueSock following the Player
     private bool canInteract = false; // Prevents repeated pressing for socks
     private Collider2D currentCollider; // The object the player is interacting with
-    [SerializeField] private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
 
-   void Start()
-{
-    if (socksCounterText == null)
-    {
-        Debug.LogError("socksCounterText is not assigned in the Inspector!");
-    }
-    if (nextLevelManager == null)
-    {
-        Debug.LogError("nextLevelManager is not assigned in the Inspector!");
-    }
+    [SerializeField]
+    private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
 
-    socksLeft = totalSocks;
-
-    // Safely update the text only if the reference is valid
-    if (socksCounterText != null)
+    void Start()
     {
-        socksCounterText.text = $"Socks Left: {socksLeft}";
+        if (socksCounterText == null)
+        {
+            Debug.LogError("socksCounterText is not assigned in the Inspector!");
+        }
+
+        if (nextLevelManager == null)
+        {
+            Debug.LogError("nextLevelManager is not assigned in the Inspector!");
+        }
+
+        socksLeft = totalSocks;
+
+        // Safely update the text only if the reference is valid
+        if (socksCounterText != null)
+        {
+            socksCounterText.text = $"Socks Left: {socksLeft}";
+        }
     }
-}
 
     void Update()
     {
@@ -102,7 +108,7 @@ public class SockCollector : MonoBehaviour
         Debug.Log($"{blueSockFollowingPlayer.name} delivered to Laundry.");
         Destroy(blueSockFollowingPlayer);
         blueSockFollowingPlayer = null; // Clear the reference
-        
+
         socksLeft--;
         UpdateSocksCounter();
 
@@ -119,7 +125,6 @@ public class SockCollector : MonoBehaviour
         // Update the socks counter UI text
         socksCounterText.text = $"Socks Left: {socksLeft}";
     }
-
 
     private void FixedUpdate()
     {
