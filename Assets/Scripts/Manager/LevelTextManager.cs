@@ -3,14 +3,18 @@ using TMPro; // For TextMeshPro
 
 public class LevelTextManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI levelText; // Reference to the Level 1 text
-    [SerializeField] private TextMeshProUGUI LevelCompleteText; // Reference to the Level 2 text
+    [SerializeField]
+    private TextMeshProUGUI levelText; // Reference to the Level 1 text
+
+    [SerializeField]
+    private TextMeshProUGUI levelCompleteText; // Reference to the Level 2 text
+
     private bool textHidden = false; // Tracks whether the text is already hidden
 
     void Start()
     {
         levelText.gameObject.SetActive(true); // Ensure the text is visible at the start
-        LevelCompleteText.gameObject.SetActive(false); // Ensure the Level 2 text is hidden
+        levelCompleteText.gameObject.SetActive(false); // Ensure the Level 2 text is hidden
     }
 
     void Update()
@@ -20,8 +24,10 @@ public class LevelTextManager : MonoBehaviour
         {
             HideLevelText(); // Hide the text when the player starts moving
         }
-        if (!GameObject.FindWithTag("Player").GetComponent<SockCollector>().HasSocksLeft()){
-            LevelCompleteText.gameObject.SetActive(true); // Show the Level 2 text
+
+        if (!GameObject.FindWithTag("Player").GetComponent<SockCollector>().HasSocksLeft())
+        {
+            levelCompleteText.gameObject.SetActive(true); // Show the Level 2 text
         }
     }
 
