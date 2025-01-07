@@ -8,6 +8,10 @@ TagManager:
   - Laundry
   - OtherSock
   - BlueSock
+  - BlueShirts
+  - PurplePants
+  - Picture
+  - Frame
   layers:
   - Default
   - TransparentFX
