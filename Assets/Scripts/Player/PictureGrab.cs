@@ -30,51 +30,29 @@ public class PicturGrab : MonoBehaviour
         }
     }
 
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     currentCollider = collision;
-    //     canInteract = true;
-
-    //     Debug.Log($"Entered trigger with {collision.name}");
-    // }
-
     private void OnTriggerEnter2D(Collider2D collision)
-{
-    // Update the currentCollider only if it's null or prioritize frames over other colliders
-    if (currentCollider == null || collision.CompareTag("Frame"))
     {
-        currentCollider = collision;
-        canInteract = true;
+        // Update the currentCollider only if it's null or prioritize frames over other colliders
+        if (currentCollider == null || collision.CompareTag("Frame"))
+        {
+            currentCollider = collision;
+            canInteract = true;
+        }
+
+        Debug.Log($"Entered trigger with {collision.name}");
     }
-
-    Debug.Log($"Entered trigger with {collision.name}");
-}
-
-
-    // private void OnTriggerExit2D(Collider2D collision)
-    // {
-    //     // Prevent interaction when exiting the trigger
-    //     if (collision == currentCollider)
-    //     {
-    //         canInteract = false;
-    //         currentCollider = null;
-    //     }
-
-    //     Debug.Log($"Exited trigger with {collision.tag}");
-    // }
 
     private void OnTriggerExit2D(Collider2D collision)
-{
-    // Only clear currentCollider if the exiting collider is the active one
-    if (collision == currentCollider)
     {
-        currentCollider = null;
-        canInteract = false;
+        // Only clear currentCollider if the exiting collider is the active one
+        if (collision == currentCollider)
+        {
+            currentCollider = null;
+            canInteract = false;
+        }
+
+        Debug.Log($"Exited trigger with {collision.name}");
     }
-
-    Debug.Log($"Exited trigger with {collision.name}");
-}
-
 
     private void HandleInteraction()
     {
@@ -95,7 +73,7 @@ public class PicturGrab : MonoBehaviour
         }
     }
 
-   private void dropPic()
+    private void dropPic()
     {
         if (picFollow == null)
         {
