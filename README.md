@@ -24,3 +24,6 @@ https://matanyocheved.itch.io/toyboxinvestigation-intro1
 3. האם יש צורך בפידבק מיוחד כאשר השחקן עושה נפסל או שתחילת השלב מההתחלה מעבירה את המסר?
 4. האם חלון הוראות השלב ברור מספיק על מנת להבין את המשימה?
 5. האם בשלב ההדרכה (Tutorial) חסרים לשחקן כלים להבין את הפעולות הנדרשות ממנו בשלב הראשון?
+
+## מטלה 8:
+https://matanyocheved.itch.io/toyboxinvestigation-0701
