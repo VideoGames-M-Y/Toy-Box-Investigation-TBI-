@@ -8,6 +8,7 @@ public class NextLevelManager : MonoBehaviour
     [SerializeField] private Button nextLevelButton; // Reference to the Next Level button
     [SerializeField] private string nextSceneName; // Name of the next scene
     [SerializeField] private TextMeshProUGUI LevelCompleteText; // Reference to the Level 2 text
+    [SerializeField] private Button homeButton; // Reference to the Home button
 
 
     void Start()
@@ -19,6 +20,7 @@ public class NextLevelManager : MonoBehaviour
 
         // Add a listener to the button to load the next level when clicked
         nextLevelButton.onClick.AddListener(LoadNextLevel);
+        homeButton.onClick.AddListener(LoadHomeScene);
     }
 
     public void ShowNextLevelButton()
@@ -36,5 +38,11 @@ public class NextLevelManager : MonoBehaviour
     public void ShowLevelCompleteText()
     {
         LevelCompleteText.gameObject.SetActive(true); // Show the Level 2 text
+    }
+
+    private void LoadHomeScene()
+    {
+        // Load the Home scene
+        SceneManager.LoadScene("OpeningScene");
     }
 }
