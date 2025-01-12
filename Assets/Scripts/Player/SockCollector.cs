@@ -233,7 +233,7 @@ public class SockCollector : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if (currentCollider != null)
+        if (currentCollider != null && !currentCollider.gameObject.CompareTag("Laundry"))
         {
             GrabItem(currentCollider.gameObject);
         }
@@ -245,7 +245,7 @@ public class SockCollector : MonoBehaviour
         Debug.Log($"{item.name} is now following the Player.");
     }
 
-    private void DropItem()
+    public void DropItem()
     {
         Debug.Log($"{currentItemFollowingPlayer.name} dropped.");
         currentItemFollowingPlayer = null;
@@ -313,5 +313,10 @@ public class SockCollector : MonoBehaviour
     public bool HasBlueSock()
     {
         return currentItemFollowingPlayer != null && currentItemFollowingPlayer.CompareTag("BlueSock");
+    }
+
+    public bool IsHoldingItem()
+    {
+        return currentItemFollowingPlayer != null;
     }
 }
