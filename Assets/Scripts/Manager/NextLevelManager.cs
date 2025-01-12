@@ -43,6 +43,6 @@ public class NextLevelManager : MonoBehaviour
     private void LoadHomeScene()
     {
         // Load the Home scene
-        SceneManager.LoadScene("LevelsMenu");
+        SceneManager.LoadScene("OpeningScene");
     }
 }

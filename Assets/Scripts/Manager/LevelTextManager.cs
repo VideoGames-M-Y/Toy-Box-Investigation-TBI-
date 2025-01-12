@@ -1,14 +1,17 @@
 using UnityEngine;
-using TMPro; // For TextMeshPro
+using TMPro;
+using UnityEngine.UI; // For TextMeshPro
 
 public class LevelTextManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI levelText; // Reference to the Level 1 text
     private bool textHidden = false; // Tracks whether the text is already hidden
+    [SerializeField] private Button hintButton; // Reference to the Hint button
 
     void Start()
     {
         levelText.gameObject.SetActive(true); // Ensure the text is visible at the start
+        hintButton.onClick.AddListener(ShowLevelText); // Add a listener to the button to hide the text
     }
 
     void Update()
@@ -24,5 +27,11 @@ public class LevelTextManager : MonoBehaviour
     {
         levelText.gameObject.SetActive(false); // Hide the text
         textHidden = true; // Prevent the text from being hidden multiple times
+    }
+
+    private void ShowLevelText()
+    {
+        levelText.gameObject.SetActive(true); // Show the text
+        textHidden = false; // Allow the text to be hidden again
     }
 }

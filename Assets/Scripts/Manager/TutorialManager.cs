@@ -16,7 +16,7 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         // Set the initial instruction
-        instructionText.text = "Move the character left or right using the left or right arrow keys.";
+        instructionText.text = "הזז את הילד ימינה ושמאלה בעזרת מקשי החצים במקלדת";
 
         // Cache the SockCollector component for better performance
         sockCollector = GameObject.FindWithTag("Player")?.GetComponent<SockCollector>();
@@ -32,28 +32,28 @@ public class TutorialManager : MonoBehaviour
         if (!hasMovedX && Input.GetAxisRaw("Horizontal") != 0)
         {
             hasMovedX = true;
-            instructionText.text = "Move the character up or down using the up or down arrow keys.";
+            instructionText.text = "מעולה! \n עכשיו הזז את הילד למעלה ולמטה בעזרת מקשי החצים במקלדת";
         }
 
         // Step 2: Move vertically
         if (hasMovedX && !hasMovedY && Input.GetAxisRaw("Vertical") != 0)
         {
             hasMovedY = true;
-            instructionText.text = "Now find an a piece of clothing and press Spacebar to grab it.";
+            instructionText.text = "יפה מאוד! \n עכשיו אסוף את הגרב בעזרת לחיצה על מקש הרווח כשהילד נמצא ליד הגרב";
         }
 
         // Step 3: Grab an item
         if (hasMovedY && !hasGrabbed && sockCollector.IsHoldingItem())
         {
             hasGrabbed = true;
-            instructionText.text = "Now press Spacebar to drop the item.";
+            instructionText.text = "נהדר! \n לחץ על מקש הרווח פעם נוספת כדי להפיל את הגרב";
         }
 
         // Step 4: Deliver the item
         if (hasGrabbed && !hasDropped && !sockCollector.IsHoldingItem())
         {
             hasDropped = true;
-            instructionText.text = "Good job! All tasks completed.";
+            instructionText.text = "עבודה טובה! \n כעת תוכל להמשיך לשלב הבא";
             nextLevelManager.ShowNextLevelButton();
         }
     }
