@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PicturGrab : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class PicturGrab : MonoBehaviour
     private bool canInteract = false; // Prevents repeated pressing for pictures
     private Collider2D currentCollider; // The object the player is interacting with
     [SerializeField] private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
+    [SerializeField] private Camera mainCamera; // Reference to the main Camera
+    [SerializeField] private float zoomDuration = 3f; // Duration of the camera zoom effect 
+    [SerializeField] private float zoomSize = 3f; // Camera size when zoomed in
+    [SerializeField] private GameObject wrongItemPopup; // UI Popup for wrong item
+    [SerializeField] private float waitTime = 3f; // Time to wait before restarting the scene
 
     void Start()
     {
@@ -19,6 +25,12 @@ public class PicturGrab : MonoBehaviour
         }
 
         picsLeft = totalPics;
+
+        // Hide the wrong item popup initially
+        if (wrongItemPopup != null)
+        {
+            wrongItemPopup.SetActive(false);
+        }
     }
 
     void Update()
@@ -137,7 +149,7 @@ public class PicturGrab : MonoBehaviour
             else
             {
                 Debug.LogError($"{picFollow.name} does not match {currentCollider.name}. Try again.");
-                RestartScene();
+                StartCoroutine(wrongMatch());
             }
         }
         else
@@ -174,4 +186,65 @@ public class PicturGrab : MonoBehaviour
         nextLevelManager.ShowNextLevelButton();
         nextLevelManager.ShowLevelCompleteText();
     }
+
+     private IEnumerator wrongMatch()
+{
+    // Make the player disappear (hide its renderer or deactivate)
+    SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
+    if (playerRenderer != null)
+    {
+        playerRenderer.enabled = false; // Hides the player's sprite
+    }
+
+    // Target position and size for the camera
+    Vector3 targetPosition = new Vector3(
+        picFollow.transform.position.x,
+        picFollow.transform.position.y,
+        mainCamera.transform.position.z // Keep the Z position unchanged
+    );
+
+    float initialSize = mainCamera.orthographicSize;
+    float elapsedTime = 0f;
+
+    // Show the wrong item popup
+    if (wrongItemPopup != null)
+    {
+        wrongItemPopup.SetActive(true);
+    }
+
+    // Gradually zoom and center the camera
+    while (elapsedTime < zoomDuration)
+    {
+        // Smoothly move the camera toward the target position
+        mainCamera.transform.position = Vector3.Lerp(
+            mainCamera.transform.position,
+            targetPosition,
+            elapsedTime / zoomDuration
+        );
+
+        // Smoothly adjust the orthographic size to zoom in
+        mainCamera.orthographicSize = Mathf.Lerp(initialSize, zoomSize, elapsedTime / zoomDuration);
+
+        elapsedTime += Time.deltaTime;
+        yield return null;
+    }
+
+    // Ensure the camera is exactly at the final position and size
+    mainCamera.transform.position = targetPosition;
+    mainCamera.orthographicSize = zoomSize;
+
+    // Pause the scene
+    Time.timeScale = 0f;
+
+    // Wait for the specified time before restarting
+    yield return new WaitForSecondsRealtime(waitTime);
+
+    // Reset the scene
+    Time.timeScale = 1f; // Resume time
+    if (playerRenderer != null)
+    {
+        playerRenderer.enabled = true; // Restore the player's sprite before the scene reloads
+    }
+    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+}
 }

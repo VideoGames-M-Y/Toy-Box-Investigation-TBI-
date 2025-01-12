@@ -332,8 +332,8 @@ public class SockCollector : MonoBehaviour
     [SerializeField] private int totalSocks = 6; // Total number of socks to collect
     [SerializeField] private GameObject wrongItemPopup; // UI Popup for wrong item
     [SerializeField] private Camera mainCamera; // Reference to the main camera
-    [SerializeField] private float zoomDuration = 1.5f; // Duration of the zoom effect
-    [SerializeField] private float zoomSize = 5f; // Camera size when zoomed in
+    [SerializeField] private float zoomDuration = 3f; // Duration of the zoom effect
+    [SerializeField] private float zoomSize = 3f; // Camera size when zoomed in
     private int socksLeft;
     private GameObject currentItemFollowingPlayer = null; // Tracks the item following the Player
     private Collider2D currentCollider;
@@ -471,6 +471,12 @@ public class SockCollector : MonoBehaviour
     float initialSize = mainCamera.orthographicSize;
     float elapsedTime = 0f;
 
+    // Show the wrong item popup
+    if (wrongItemPopup != null)
+    {
+        wrongItemPopup.SetActive(true);
+    }
+
     // Gradually zoom and center the camera
     while (elapsedTime < zoomDuration)
     {
@@ -494,12 +500,6 @@ public class SockCollector : MonoBehaviour
 
     // Pause the scene
     Time.timeScale = 0f;
-
-    // Show the wrong item popup
-    if (wrongItemPopup != null)
-    {
-        wrongItemPopup.SetActive(true);
-    }
 
     // Wait for the specified time before restarting
     yield return new WaitForSecondsRealtime(waitTime);
