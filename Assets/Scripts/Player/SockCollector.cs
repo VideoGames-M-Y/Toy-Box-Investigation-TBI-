@@ -37,7 +37,7 @@ public class SockCollector : MonoBehaviour
         socksLeft = totalSocks;
         if (socksCounterText != null)
         {
-            socksCounterText.text = $"גרביים שנשארו: {socksLeft}";
+            socksCounterText.text = $"פריטים שנשארו: {socksLeft}";
         }
 
         // Hide the wrong item popup initially
@@ -192,7 +192,7 @@ public class SockCollector : MonoBehaviour
 
     private void UpdateSocksCounter()
     {
-        socksCounterText.text = $"גרביים שנשארו: {socksLeft}";
+        socksCounterText.text = $"פריטים שנשארו: {socksLeft}";
     }
 
     private void FixedUpdate()
