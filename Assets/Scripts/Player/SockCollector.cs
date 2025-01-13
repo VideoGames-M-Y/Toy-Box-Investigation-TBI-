@@ -130,67 +130,65 @@ public class SockCollector : MonoBehaviour
     }
 
     private IEnumerator HandleWrongItem()
-{
-    // Make the player disappear (hide its renderer or deactivate)
-    SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
-    if (playerRenderer != null)
     {
-        playerRenderer.enabled = false; // Hides the player's sprite
-    }
+        // Make the player disappear (hide its renderer or deactivate)
+        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
+        if (playerRenderer != null)
+        {
+            playerRenderer.enabled = false; // Hides the player's sprite
+        }
 
-    // Target position and size for the camera
-    Vector3 targetPosition = new Vector3(
-        currentItemFollowingPlayer.transform.position.x,
-        currentItemFollowingPlayer.transform.position.y,
-        mainCamera.transform.position.z // Keep the Z position unchanged
-    );
-
-    float initialSize = mainCamera.orthographicSize;
-    float elapsedTime = 0f;
-
-    // Show the wrong item popup
-    if (wrongItemPopup != null)
-    {
-        wrongItemPopup.SetActive(true);
-    }
-
-    // Gradually zoom and center the camera
-    while (elapsedTime < zoomDuration)
-    {
-        // Smoothly move the camera toward the target position
-        mainCamera.transform.position = Vector3.Lerp(
-            mainCamera.transform.position,
-            targetPosition,
-            elapsedTime / zoomDuration
+        // Target position and size for the camera
+        Vector3 targetPosition = new Vector3(
+            currentItemFollowingPlayer.transform.position.x,
+            currentItemFollowingPlayer.transform.position.y,
+            mainCamera.transform.position.z // Keep the Z position unchanged
         );
 
-        // Smoothly adjust the orthographic size to zoom in
-        mainCamera.orthographicSize = Mathf.Lerp(initialSize, zoomSize, elapsedTime / zoomDuration);
+        float initialSize = mainCamera.orthographicSize;
+        float elapsedTime = 0f;
 
-        elapsedTime += Time.deltaTime;
-        yield return null;
+        // Show the wrong item popup
+        if (wrongItemPopup != null)
+        {
+            wrongItemPopup.SetActive(true);
+        }
+
+        // Gradually zoom and center the camera
+        while (elapsedTime < zoomDuration)
+        {
+            // Smoothly move the camera toward the target position
+            mainCamera.transform.position = Vector3.Lerp(
+                mainCamera.transform.position,
+                targetPosition,
+                elapsedTime / zoomDuration
+            );
+
+            // Smoothly adjust the orthographic size to zoom in
+            mainCamera.orthographicSize = Mathf.Lerp(initialSize, zoomSize, elapsedTime / zoomDuration);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the camera is exactly at the final position and size
+        mainCamera.transform.position = targetPosition;
+        mainCamera.orthographicSize = zoomSize;
+
+        // Pause the scene
+        Time.timeScale = 0f;
+
+        // Wait for the specified time before restarting
+        yield return new WaitForSecondsRealtime(waitTime);
+
+        // Reset the scene
+        Time.timeScale = 1f; // Resume time
+        if (playerRenderer != null)
+        {
+            playerRenderer.enabled = true; // Restore the player's sprite before the scene reloads
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-    // Ensure the camera is exactly at the final position and size
-    mainCamera.transform.position = targetPosition;
-    mainCamera.orthographicSize = zoomSize;
-
-    // Pause the scene
-    Time.timeScale = 0f;
-
-    // Wait for the specified time before restarting
-    yield return new WaitForSecondsRealtime(waitTime);
-
-    // Reset the scene
-    Time.timeScale = 1f; // Resume time
-    if (playerRenderer != null)
-    {
-        playerRenderer.enabled = true; // Restore the player's sprite before the scene reloads
-    }
-    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-}
-
-
 
     private void UpdateSocksCounter()
     {
