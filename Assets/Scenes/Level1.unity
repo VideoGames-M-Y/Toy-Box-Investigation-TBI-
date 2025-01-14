@@ -3106,7 +3106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 300
+    m_Left: 200
     m_Right: 200
     m_Top: 200
     m_Bottom: 200
@@ -3139,7 +3139,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5970227436535027238, guid: 95befb317efd14849920ef0ae984747c, type: 3}
+  m_Sprite: {fileID: 6609714114380277938, guid: aecf86d5d0ea0450a82fd08ee89c6478, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
