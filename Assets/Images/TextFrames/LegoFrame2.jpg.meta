@@ -1,10 +1,12 @@
 fileFormatVersion: 2
-guid: cb2167e2dfe8241fb986ddb9cadacf9a
+guid: 1eeb2a2a1be8748dfbdec768fbc4c132
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7296000760138281659
-    second: 31A65A01-18FA-4D65-8639-F9D0B2B2C732_0
+      213: -1884389407128454923
+    second: "DALL\xB7E 2025-01-14 17.51.06 - A cartoon-style LEGO brick frame with
+      vibrant blocks in red, yellow, green, and blue along the borders, designed
+      with thinner edges for a sleek appear_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +115,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 31A65A01-18FA-4D65-8639-F9D0B2B2C732_0
+      name: "DALL\xB7E 2025-01-14 17.51.06 - A cartoon-style LEGO brick frame with
+        vibrant blocks in red, yellow, green, and blue along the borders, designed
+        with thinner edges for a sleek appear_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1640
-        height: 1640
+        width: 992
+        height: 893
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +132,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54d4afae6f56fba90800000000000000
-      internalID: -7296000760138281659
+      spriteID: 5f8799171dd49d5e0800000000000000
+      internalID: -1884389407128454923
       vertices: []
       indices: 
       edges: []
@@ -147,7 +151,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "DALL\xB7E 2025-01-14 17.51.06 - A cartoon-style LEGO brick frame with vibrant blocks in red, yellow, green, and blue along the borders, designed with thinner edges for a sleek appear_0": -1884389407128454923
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

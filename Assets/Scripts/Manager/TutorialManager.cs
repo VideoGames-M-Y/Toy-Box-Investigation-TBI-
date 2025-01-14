@@ -53,7 +53,7 @@ public class TutorialManager : MonoBehaviour
         if (hasGrabbed && !hasDropped && !sockCollector.IsHoldingItem())
         {
             hasDropped = true;
-            instructionText.text = "עבודה טובה! \n כעת תוכל להמשיך לשלב הבא";
+            instructionText.text = "עבודה טובה! \n כעת תוכל להמשיך לשלב הבא על ידי לחיצה על הכפתור למטה בעזרת העכבר";
             nextLevelManager.ShowNextLevelButton();
         }
     }

@@ -210,6 +210,7 @@ public class SockCollector : MonoBehaviour
     private void LevelComplete()
     {
         Debug.Log("Level completed!");
+        nextLevelManager.ShowLevelCompleteText();
         nextLevelManager.ShowNextLevelButton();
     }
 
