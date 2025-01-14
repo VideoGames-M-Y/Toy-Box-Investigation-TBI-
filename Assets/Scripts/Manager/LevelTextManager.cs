@@ -7,10 +7,12 @@ public class LevelTextManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText; // Reference to the Level 1 text
     private bool textHidden = false; // Tracks whether the text is already hidden
     [SerializeField] private Button hintButton; // Reference to the Hint button
+    [SerializeField] private GameObject Panel; // Reference to the Hint panel
 
     void Start()
     {
         levelText.gameObject.SetActive(true); // Ensure the text is visible at the start
+        Panel.SetActive(true); // Ensure the panel is hidden at the start
         hintButton.onClick.AddListener(ShowLevelText); // Add a listener to the button to hide the text
     }
 
@@ -26,12 +28,14 @@ public class LevelTextManager : MonoBehaviour
     private void HideLevelText()
     {
         levelText.gameObject.SetActive(false); // Hide the text
+        Panel.SetActive(false); // Show the panel
         textHidden = true; // Prevent the text from being hidden multiple times
     }
 
     private void ShowLevelText()
     {
         levelText.gameObject.SetActive(true); // Show the text
+        Panel.SetActive(true); // Hide the panel
         textHidden = false; // Allow the text to be hidden again
     }
 }
