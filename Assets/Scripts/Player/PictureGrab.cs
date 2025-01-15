@@ -12,10 +12,10 @@ public class PictureGrab : MonoBehaviour
     private Collider2D currentCollider; // The object the player is interacting with
     [SerializeField] private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
     [SerializeField] private Camera mainCamera; // Reference to the main Camera
-    [SerializeField] private float zoomDuration = 3f; // Duration of the camera zoom effect
+    [SerializeField] private float zoomDuration = 2f; // Duration of the camera zoom effect
     [SerializeField] private float zoomSize = 3f; // Camera size when zoomed in
     [SerializeField] private GameObject wrongItemPopup; // UI Popup for wrong item
-    [SerializeField] private float waitTime = 3f; // Time to wait before restarting the scene
+    [SerializeField] private float waitTime = 2f; // Time to wait before restarting the scene
 
     void Start()
     {

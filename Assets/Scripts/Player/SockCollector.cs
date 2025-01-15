@@ -15,7 +15,7 @@ public class SockCollector : MonoBehaviour
     private GameObject currentItemFollowingPlayer = null; // Tracks the item following the Player
     private Collider2D currentCollider;
     [SerializeField] private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
-    [SerializeField] private float waitTime = 5f; // Time to wait before restarting the scene
+    [SerializeField] private float waitTime = 2f; // Time to wait before restarting the scene
     private Vector3 originalCameraPosition;
     private float originalCameraSize;
 
@@ -147,6 +147,7 @@ public class SockCollector : MonoBehaviour
 
         float initialSize = mainCamera.orthographicSize;
         float elapsedTime = 0f;
+        float newZoomDuration = zoomDuration * 0.7f; // Zoom duration is 70% of the original
 
         // Show the wrong item popup
         if (wrongItemPopup != null)
@@ -155,17 +156,15 @@ public class SockCollector : MonoBehaviour
         }
 
         // Gradually zoom and center the camera
-        while (elapsedTime < zoomDuration)
+        while (elapsedTime < newZoomDuration)
         {
-            // Smoothly move the camera toward the target position
             mainCamera.transform.position = Vector3.Lerp(
                 mainCamera.transform.position,
                 targetPosition,
-                elapsedTime / zoomDuration
+                elapsedTime / newZoomDuration
             );
 
-            // Smoothly adjust the orthographic size to zoom in
-            mainCamera.orthographicSize = Mathf.Lerp(initialSize, zoomSize, elapsedTime / zoomDuration);
+            mainCamera.orthographicSize = Mathf.Lerp(initialSize, zoomSize, elapsedTime / newZoomDuration);
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -175,18 +174,17 @@ public class SockCollector : MonoBehaviour
         mainCamera.transform.position = targetPosition;
         mainCamera.orthographicSize = zoomSize;
 
-        // Pause the scene
-        Time.timeScale = 0f;
-
-        // Wait for the specified time before restarting
-        yield return new WaitForSecondsRealtime(waitTime);
+        // Briefly pause before restarting (reduce wait time)
+        yield return new WaitForSecondsRealtime(waitTime); // Adjusted wait time to 2 seconds
 
         // Reset the scene
-        Time.timeScale = 1f; // Resume time
         if (playerRenderer != null)
         {
             playerRenderer.enabled = true; // Restore the player's sprite before the scene reloads
         }
+        mainCamera.transform.position = originalCameraPosition;
+        mainCamera.orthographicSize = originalCameraSize;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
