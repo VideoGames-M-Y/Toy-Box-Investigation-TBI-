@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f; // Speed of the character
+    [SerializeField] float moveSpeed = 5f; // Speed of the character
     [SerializeField] Animator animator; // Animator for handling animations
 
     private Vector2 movement; // Stores the player's input
@@ -67,5 +67,10 @@ public class CharacterMovement : MonoBehaviour
 
         // Move the character
         transform.Translate(movement * moveSpeed * Time.deltaTime);
+    }
+
+    public void SetMovement(Vector2 newMovement)
+    {
+        movement = newMovement;
     }
 }
