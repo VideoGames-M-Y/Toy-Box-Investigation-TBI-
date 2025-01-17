@@ -1,15 +1,23 @@
 using UnityEngine;
 using TMPro; // For TextMeshPro
+using UnityEngine.UI; // For UI elements like Button
 
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI instructionText; // UI text for instructions
     [SerializeField] private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
+    [SerializeField] private Button hintButton; // Reference to the Hint button
+    [SerializeField] private Button RestartButton; // Reference to the Restart button
+    [SerializeField] private Button HomeButton; // Reference to the Home button
+
 
     private bool hasMovedX = false;
     private bool hasMovedY = false;
     private bool hasGrabbed = false;
     private bool hasDropped = false;
+    private bool hintClicked = false;
+    private bool restartClicked = false;
+    private bool homeClicked = false;
 
     private SockCollector sockCollector; // Reference to the SockCollector component
 
