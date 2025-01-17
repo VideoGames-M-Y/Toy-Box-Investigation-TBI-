@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   socksCounterText: {fileID: 320381324}
-  totalSocks: 5
+  totalSocks: 4
   wrongItemPopup: {fileID: 1136152859}
   mainCamera: {fileID: 1602244239}
   zoomDuration: 2
