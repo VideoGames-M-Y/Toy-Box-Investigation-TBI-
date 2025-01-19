@@ -12,6 +12,8 @@ TagManager:
   - PurplePants
   - Picture
   - Frame
+  - Doorway
+  - CorrectItem
   layers:
   - Default
   - TransparentFX
