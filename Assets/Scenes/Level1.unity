@@ -1753,6 +1753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   animator: {fileID: 782335357}
+  rb: {fileID: 782335355}
 --- !u!95 &782335357
 Animator:
   serializedVersion: 7
