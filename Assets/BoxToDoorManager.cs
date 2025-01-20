@@ -41,6 +41,11 @@ public class BoxToDoorManager : MonoBehaviour
             OpenDoor();
         }
 
+        if (collision.CompareTag("Finish"))
+        {
+            LevelComplete();
+        }
+
         Debug.Log($"Entered trigger with {collision.tag}");
     }
 
@@ -101,6 +106,10 @@ public class BoxToDoorManager : MonoBehaviour
         Debug.Log("Level completed!");
         nextLevelManager.ShowLevelCompleteText();
         nextLevelManager.ShowNextLevelButton();
+        //make the character disappear
+        gameObject.SetActive(false);
+        //make the following item disappear
+        currentItemFollowingPlayer.SetActive(false);
     }
 
     public bool IsHoldingItem()

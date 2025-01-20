@@ -23,4 +23,9 @@ public class Mover : MonoBehaviour
         // Apply movement to the Rigidbody
         rb.linearVelocity = movement.normalized * moveSpeed;
     }
+
+    public void SetSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
 }

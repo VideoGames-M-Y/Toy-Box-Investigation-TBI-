@@ -1,23 +1,29 @@
 using UnityEngine;
 using TMPro; // For TextMeshPro
 using UnityEngine.UI; // For UI elements like Button
+using System.Collections; // For IEnumerator
+using UnityEngine.SceneManagement; // For SceneManager
 
 public class TutorialManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI instructionText; // UI text for instructions
     [SerializeField] private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
     [SerializeField] private Button hintButton; // Reference to the Hint button
-    [SerializeField] private Button RestartButton; // Reference to the Restart button
-    [SerializeField] private Button HomeButton; // Reference to the Home button
+    [SerializeField] private Button restartButton; // Reference to the Restart button
+    [SerializeField] private Button homeButton; // Reference to the Home button
+    [SerializeField] private Button nextLevelButton; // Reference to the Next Level button
+    [SerializeField] private GameObject arrow; // Reference to the Hint panel
+    [SerializeField] private Vector3 arrowOffset = new Vector3(0, -50, 0); // Offset for the Arrow position
 
 
     private bool hasMovedX = false;
     private bool hasMovedY = false;
     private bool hasGrabbed = false;
     private bool hasDropped = false;
-    private bool hintClicked = false;
-    private bool restartClicked = false;
-    private bool homeClicked = false;
+    private bool isHintTutorial = false;
+    private bool isRestartTutorial = false;
+    private bool isHomeTutorial = false;
+
 
     private SockCollector sockCollector; // Reference to the SockCollector component
 
@@ -32,6 +38,11 @@ public class TutorialManager : MonoBehaviour
         {
             Debug.LogError("Player object is missing the SockCollector component!");
         }
+
+        // Set up the buttons
+        restartButton.onClick.AddListener(OnRestartButtonClicked);
+        homeButton.onClick.AddListener(OnHomeButtonClicked);
+        hintButton.onClick.AddListener(OnHintButtonClicked);
     }
 
     void Update()
@@ -61,21 +72,100 @@ public class TutorialManager : MonoBehaviour
         if (hasGrabbed && !hasDropped && !sockCollector.IsHoldingItem())
         {
             hasDropped = true;
-            instructionText.text = "עבודה טובה! \n כעת תוכל להמשיך לשלב הבא על ידי לחיצה על הכפתור למטה בעזרת העכבר";
-            nextLevelManager.ShowNextLevelButton();
+            // Disable the Player movement
+            sockCollector.GetComponent<CharacterMovement>().enabled = false;
+            sockCollector.GetComponent<Mover>().SetSpeed(0);
+            sockCollector.GetComponent<Animator>().enabled = false;
+            StartButtonTutorial();
         }
     }
 
-    private void TriggerNextLevel()
+    private void StartButtonTutorial()
     {
-        if (nextLevelManager != null)
+        StartCoroutine(ButtonTutorialCoroutine());
+    }
+
+    private IEnumerator ButtonTutorialCoroutine()
+    {
+        // Step 1: Hint button tutorial
+        isHintTutorial = true;
+        instructionText.text = "כפתור הרמז יציג את הוראות השלב לאחר שנעלמו. \n לחץ עליו כדי להמשיך";
+        SetArrowPosition(hintButton);
+
+        yield return new WaitUntil(() => isHintTutorial == false);
+
+        // Step 2: Restart button tutorial
+        isRestartTutorial = true;
+        instructionText.text = "כפתור ההתחלה מחדש  יתחיל את השלב ממהתחלה. \n לחץ עליו כדי להמשיך.";
+        SetArrowPosition(restartButton);
+
+        yield return new WaitUntil(() => isRestartTutorial == false);
+
+        // Step 3: Home button tutorial
+        isHomeTutorial = true;
+        instructionText.text = "כפתור הבית יחזיר אותך לתפריט הראשי. \n לחץ עליו כדי להמשיך";
+        SetArrowPosition(homeButton);
+
+        yield return new WaitUntil(() => isHomeTutorial == false);
+
+        // Tutorial complete
+        arrow.SetActive(false);
+        instructionText.text = "מעולה! \n המדריך בוצע בהצלחה! \n לחץ על הכפתור למטה כדי להמשיך לשלב הראשון";
+        nextLevelManager.ShowNextLevelButton();
+        SetArrowPosition(nextLevelButton);
+    }
+
+
+    public void OnHintButtonClicked()
+    {
+        if (isHintTutorial)
         {
-            // Call NextLevelManager to show the Next Level button
-            nextLevelManager.ShowNextLevelButton();
+            isHintTutorial = false;
         }
         else
         {
-            Debug.LogError("NextLevelManager reference is missing! Ensure it's assigned in the inspector.");
+            Debug.Log("Hint button clicked outside tutorial.");
         }
     }
+
+    public void OnRestartButtonClicked()
+    {
+        if (isRestartTutorial)
+        {
+            isRestartTutorial = false;
+        }
+        else
+        {
+            RestartScene();
+        }
+    }
+
+    public void OnHomeButtonClicked()
+    {
+        if (isHomeTutorial)
+        {
+            isHomeTutorial = false;
+        }
+        else
+        {
+            ReturnToHome();
+        }
+    }
+
+    private void RestartScene()
+    {
+         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void ReturnToHome()
+    {
+        SceneManager.LoadScene("OpeningScene");
+    }
+
+    private void SetArrowPosition(Button targetButton)
+    {
+        arrow.SetActive(true);
+        arrow.transform.position = targetButton.transform.position + arrowOffset;
+    }
+
 }
