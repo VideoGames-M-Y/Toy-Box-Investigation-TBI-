@@ -1305,6 +1305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   animator: {fileID: 602786962}
+  rb: {fileID: 0}
 --- !u!95 &602786962
 Animator:
   serializedVersion: 7
@@ -3687,7 +3688,7 @@ MonoBehaviour:
   homeButton: {fileID: 740278167}
   nextLevelButton: {fileID: 16861617}
   arrow: {fileID: 588284890}
-  arrowOffset: {x: 0, y: -135, z: 0}
+  arrowOffset: {x: 0, y: -160, z: 0}
 --- !u!4 &1994282337
 Transform:
   m_ObjectHideFlags: 0

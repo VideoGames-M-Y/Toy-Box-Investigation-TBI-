@@ -1,8 +1,8 @@
 using UnityEngine;
-using TMPro; // For TextMeshPro
-using UnityEngine.UI; // For UI elements like Button
-using System.Collections; // For IEnumerator
-using UnityEngine.SceneManagement; // For SceneManager
+using TMPro;
+using UnityEngine.UI;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -165,7 +165,17 @@ public class TutorialManager : MonoBehaviour
     private void SetArrowPosition(Button targetButton)
     {
         arrow.SetActive(true);
-        arrow.transform.position = targetButton.transform.position + arrowOffset;
+
+        // Get the RectTransform of the arrow and the target button
+        RectTransform arrowRect = arrow.GetComponent<RectTransform>();
+        RectTransform buttonRect = targetButton.GetComponent<RectTransform>();
+
+        // Convert the button's position to the local position within the arrow's parent
+        Vector3 targetPosition = buttonRect.position + arrowOffset;
+        Vector3 worldToLocalPosition = arrowRect.transform.parent.InverseTransformPoint(targetPosition);
+
+        // Apply the calculated position to the arrow
+        arrowRect.localPosition = worldToLocalPosition;
     }
 
 }

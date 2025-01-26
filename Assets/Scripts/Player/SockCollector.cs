@@ -131,6 +131,9 @@ public class SockCollector : MonoBehaviour
 
     private IEnumerator HandleWrongItem()
     {
+
+        GameObject currentItemZoom = currentItemFollowingPlayer;
+        currentItemFollowingPlayer = null;
         // Make the player disappear (hide its renderer or deactivate)
         SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
         if (playerRenderer != null)
@@ -140,8 +143,8 @@ public class SockCollector : MonoBehaviour
 
         // Target position and size for the camera
         Vector3 targetPosition = new Vector3(
-            currentItemFollowingPlayer.transform.position.x,
-            currentItemFollowingPlayer.transform.position.y,
+            currentItemZoom.transform.position.x,
+            currentItemZoom.transform.position.y,
             mainCamera.transform.position.z // Keep the Z position unchanged
         );
 
@@ -175,7 +178,7 @@ public class SockCollector : MonoBehaviour
         mainCamera.orthographicSize = zoomSize;
 
         // Briefly pause before restarting (reduce wait time)
-        yield return new WaitForSecondsRealtime(waitTime); // Adjusted wait time to 2 seconds
+        yield return new WaitForSecondsRealtime(waitTime); 
 
         // Reset the scene
         if (playerRenderer != null)

@@ -16,12 +16,18 @@ public class PictureGrab : MonoBehaviour
     [SerializeField] private float zoomSize = 3f; // Camera size when zoomed in
     [SerializeField] private GameObject wrongItemPopup; // UI Popup for wrong item
     [SerializeField] private float waitTime = 2f; // Time to wait before restarting the scene
+    private Vector3 originalCameraPosition;
+    private float originalCameraSize;
 
     void Start()
     {
         if (nextLevelManager == null)
         {
             Debug.LogError("nextLevelManager is not assigned in the Inspector!");
+        }
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
         }
 
         picsLeft = totalPics;
@@ -31,6 +37,9 @@ public class PictureGrab : MonoBehaviour
         {
             wrongItemPopup.SetActive(false);
         }
+        
+        originalCameraPosition = mainCamera.transform.position;
+        originalCameraSize = mainCamera.orthographicSize;
     }
 
     void Update()
@@ -133,6 +142,8 @@ public class PictureGrab : MonoBehaviour
                 picFollow = null;
                 picsLeft--;
 
+                currentCollider.enabled = false;
+
                 if (picsLeft <= 0)
                 {
                     Debug.Log("All pictures placed correctly!");
@@ -178,6 +189,9 @@ public class PictureGrab : MonoBehaviour
 
     private IEnumerator WrongMatch()
     {
+        GameObject picZoom = picFollow;
+        picFollow = null;
+        
         SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
         if (playerRenderer != null)
         {
@@ -185,8 +199,8 @@ public class PictureGrab : MonoBehaviour
         }
 
         Vector3 targetPosition = new Vector3(
-            picFollow.transform.position.x,
-            picFollow.transform.position.y,
+            picZoom.transform.position.x,
+            picZoom.transform.position.y,
             mainCamera.transform.position.z
         );
 
@@ -222,6 +236,8 @@ public class PictureGrab : MonoBehaviour
         {
             playerRenderer.enabled = true;
         }
+        mainCamera.transform.position = originalCameraPosition;
+        mainCamera.orthographicSize = originalCameraSize;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
