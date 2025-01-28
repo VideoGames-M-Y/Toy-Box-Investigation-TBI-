@@ -14,8 +14,10 @@ TagManager:
   - Frame
   - Doorway
   - CorrectItem
-  - holeInGround
   - bike
+  - pit
+  - wood
+  - road
   layers:
   - Default
   - TransparentFX
