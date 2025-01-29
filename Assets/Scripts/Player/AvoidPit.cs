@@ -148,14 +148,33 @@ public class AvoidPit : MonoBehaviour
 
         if (currentCollider != null && currentCollider.CompareTag("pit"))
         {
+            if (!currentCollider.enabled)  // Check if already filled
+            {
+                Debug.Log("This pit slot is already filled.");
+                return;
+            }
+
             Debug.Log($"{woodFollow.name} placed in {currentCollider.name}.");
             woodFollow.transform.position = currentCollider.transform.position;
             woodFollow = null;
             woodLeft--;
 
-            currentCollider.enabled = false;
-            isPitCovered = true;
+            currentCollider.enabled = false; // Disable this slot so it's not reusable
 
+            Collider2D[] colliders = Physics2D.OverlapPointAll(currentCollider.transform.position);
+            foreach (Collider2D col in colliders)
+            {
+                if (col.CompareTag("Frame"))
+                {
+                    col.enabled = false;
+                    Debug.Log("Frame collider disabled.");
+                }
+            }
+            
+            if (woodLeft < 1)
+            {
+                isPitCovered = true;
+            }
         }
         else
         {
