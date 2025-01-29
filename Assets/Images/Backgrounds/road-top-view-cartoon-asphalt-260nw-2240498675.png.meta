@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      road-top-view-cartoon-asphalt-260nw-2240498675_0: -2818824198608043839
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
