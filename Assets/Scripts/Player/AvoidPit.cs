@@ -230,9 +230,7 @@ public class AvoidPit : MonoBehaviour
         mainCamera.orthographicSize = zoomSize;
 
         // Pause briefly before restarting
-        Time.timeScale = 0f; // Pause the game
         yield return new WaitForSecondsRealtime(waitTime);
-        Time.timeScale = 1f; // Resume the game
 
         if (playerRenderer != null)
         {
