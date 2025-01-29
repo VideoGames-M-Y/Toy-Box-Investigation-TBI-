@@ -228,9 +228,7 @@ public class PictureGrab : MonoBehaviour
         mainCamera.transform.position = targetPosition;
         mainCamera.orthographicSize = zoomSize;
 
-        Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(waitTime);
-        Time.timeScale = 1f;
 
         if (playerRenderer != null)
         {
