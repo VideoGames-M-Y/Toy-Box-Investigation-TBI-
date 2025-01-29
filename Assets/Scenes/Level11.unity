@@ -2464,16 +2464,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 782335350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 558aeb0945277144ab00fb6e4d783841, type: 3}
+  m_Script: {fileID: 11500000, guid: 61795fdc9e44e42e488dc36d3039579e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalWood: 5
-  nextLevelManager: {fileID: 757600098}
-  mainCamera: {fileID: 519420031}
+  totalFlowers: 2
+  nextLevelManager: {fileID: 0}
+  mainCamera: {fileID: 0}
   zoomDuration: 2
   zoomSize: 3
-  wrongItemPopup: {fileID: 271337847}
-  RoadNotSafePopUp: {fileID: 990721137}
+  wrongFlowersPopup: {fileID: 0}
+  wrongRoadPopUp: {fileID: 0}
   waitTime: 2
 --- !u!1 &798330590
 GameObject:
