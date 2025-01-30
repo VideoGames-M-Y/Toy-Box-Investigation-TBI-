@@ -1048,6 +1048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   animator: {fileID: 470747881}
+  rb: {fileID: 0}
 --- !u!95 &470747881
 Animator:
   serializedVersion: 7
@@ -5352,7 +5353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextLevelButton: {fileID: 1862972609}
-  nextSceneName: Level9
+  nextSceneName: Level7
   LevelCompleteText: {fileID: 1102378424}
   homeButton: {fileID: 955459137}
   restartButton: {fileID: 669559487}
