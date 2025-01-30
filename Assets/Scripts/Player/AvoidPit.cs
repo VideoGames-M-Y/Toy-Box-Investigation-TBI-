@@ -55,6 +55,12 @@ public class AvoidPit : MonoBehaviour
         {
             HandleInteraction();
         }
+
+        else if (woodFollow != null && currentCollider != null && currentCollider.CompareTag("pit"))
+        {
+            // Attempt to place the wood
+            FillPit();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -81,6 +87,7 @@ public class AvoidPit : MonoBehaviour
         {
             ZoomInOnRoad();
         }
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -105,11 +112,11 @@ public class AvoidPit : MonoBehaviour
             // Collect the wood piece
             CollectWood(currentCollider.gameObject);
         }
-        else if (woodFollow != null && currentCollider != null && currentCollider.CompareTag("pit"))
-        {
-            // Attempt to place the wood
-            FillPit();
-        }
+        // else if (woodFollow != null && currentCollider != null && currentCollider.CompareTag("pit"))
+        // {
+        //     // Attempt to place the wood
+        //     FillPit();
+        // }
         else if (woodFollow != null)
         {
             // Drop the wood if not near a valid pit
@@ -166,7 +173,7 @@ public class AvoidPit : MonoBehaviour
             {
                 woodCollider.enabled = false;
             }
-            
+
             woodFollow = null;
             woodLeft--;
 
@@ -215,6 +222,9 @@ public class AvoidPit : MonoBehaviour
         Debug.Log("Level completed!");
         nextLevelManager.ShowNextLevelButton();
         nextLevelManager.ShowLevelCompleteText();
+        this.GetComponent<CharacterMovement>().enabled = false;
+        this.GetComponent<Mover>().enabled = false;
+        this.GetComponent<Animator>().enabled = false;
     }
 
     public void HandlePitFall(Vector3 pitPosition)
