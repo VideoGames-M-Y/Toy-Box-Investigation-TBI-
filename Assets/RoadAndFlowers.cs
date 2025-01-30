@@ -59,7 +59,7 @@ public class RoadAndFlowers : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // Update the currentCollider only if it's null or prioritize pits/wood
-        if (currentCollider == null || collision.CompareTag("Barrier") || collision.CompareTag("Flower"))
+        if (currentCollider == null || collision.CompareTag("Barrier") || collision.CompareTag("OtherFlower")|| collision.CompareTag("OrangeFlower"))
         {
             currentCollider = collision;
             canInteract = true;
@@ -91,7 +91,7 @@ public class RoadAndFlowers : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if (!isFlowerFollow() && currentCollider != null && currentCollider.CompareTag("wood"))
+        if (!isFlowerFollow() && currentCollider != null && (currentCollider.CompareTag("OtherFlower") || currentCollider.CompareTag("OrangeFlower")))
         {
             // Collect the wood piece
             CollectFlower(currentCollider.gameObject);
@@ -103,15 +103,33 @@ public class RoadAndFlowers : MonoBehaviour
     }
 
 
+    // private void FixedUpdate()
+    // {
+    //     if (isFlowerFollow())
+    //     {
+    //         getFlowersFollow().transform.position = Vector2.Lerp(
+    //             getFlowersFollow().transform.position,
+    //             transform.position,
+    //             Time.deltaTime * 5f
+    //         );
+    //     }
+    // }
+
     private void FixedUpdate()
     {
-        if (isFlowerFollow())
+        PositionFlowers();
+    }
+
+    private void PositionFlowers()
+    {
+        Vector2 basePosition = transform.position;
+        if (flowersFollow[0] != null)
         {
-            getFlowersFollow().transform.position = Vector2.Lerp(
-                getFlowersFollow().transform.position,
-                transform.position,
-                Time.deltaTime * 5f
-            );
+            flowersFollow[0].transform.position = Vector2.Lerp(flowersFollow[0].transform.position, basePosition + Vector2.left * 0.5f, Time.deltaTime * 5f);
+        }
+        if (flowersFollow[1] != null)
+        {
+            flowersFollow[1].transform.position = Vector2.Lerp(flowersFollow[1].transform.position, basePosition + Vector2.right * 0.5f, Time.deltaTime * 5f);
         }
     }
 
@@ -244,6 +262,10 @@ public class RoadAndFlowers : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    private bool HasFlowerSlot(){
+        return flowersFollow[0] == null || flowersFollow[1] == null;
+    }
+
     private bool isFlowerFollow(){
         return flowersFollow[0] != null || flowersFollow[1] != null;
     }
@@ -267,7 +289,7 @@ public class RoadAndFlowers : MonoBehaviour
     }
 
     private void CheckFlowers(){
-        if(isFlowerFollow()){
+        if(!HasFlowerSlot()){
             if (flowersFollow[0].CompareTag("OrangeFlower") && flowersFollow[1].CompareTag("OrangeFlower"))
             {
                 LevelComplete();

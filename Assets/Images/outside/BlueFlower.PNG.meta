@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6b4f9d8c24ae7a44b8f04f1a46e90a1a
+guid: dedb69c14057445369ead25735f10b35
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4662573026582345265
-    second: Subject (27)_0
+      213: -7587758663548667465
+    second: BlueFlower_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Subject (27)_0
+      name: BlueFlower_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1113
-        height: 456
+        width: 634
+        height: 596
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fc9cd3329863b4fb0800000000000000
-      internalID: -4662573026582345265
+      spriteID: 7b9f9c972bdd2b690800000000000000
+      internalID: -7587758663548667465
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Subject (27)_0: -4662573026582345265
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

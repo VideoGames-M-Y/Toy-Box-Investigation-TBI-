@@ -18,6 +18,9 @@ TagManager:
   - pit
   - wood
   - road
+  - OrangeFlower
+  - OtherFlower
+  - Barrier
   layers:
   - Default
   - TransparentFX
