@@ -59,8 +59,7 @@ public class AvoidPit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Update the currentCollider only if it's null or prioritize pits/wood
-        if (currentCollider == null || collision.CompareTag("pit") || collision.CompareTag("wood"))
+        if (collision.CompareTag("pit") || collision.CompareTag("wood"))
         {
             currentCollider = collision;
             canInteract = true;
@@ -68,30 +67,35 @@ public class AvoidPit : MonoBehaviour
 
         Debug.Log($"Entered trigger with {collision.name}");
 
-        if(collision.CompareTag("Frame") && !isPitCovered){
+        if (collision.CompareTag("Frame") && !isPitCovered)
+        {
             HandlePitFall(collision.transform.position);
         }
-        
-        if(collision.CompareTag("bike"))
+
+        if (collision.CompareTag("bike"))
         {
             LevelComplete();
         }
 
-        if(collision.CompareTag("road")){
+        if (collision.CompareTag("road"))
+        {
             ZoomInOnRoad();
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        // Only clear currentCollider if the exiting collider is the active one
         if (collision == currentCollider)
         {
-            currentCollider = null;
-            canInteract = false;
-        }
+            Debug.Log($"Exited trigger with {collision.name}");
 
-        Debug.Log($"Exited trigger with {collision.name}");
+            // Ensure we don't clear currentCollider if we still need it
+            if (!collision.CompareTag("pit") && !collision.CompareTag("wood"))
+            {
+                currentCollider = null;
+                canInteract = false;
+            }
+        }
     }
 
     private void HandleInteraction()
@@ -146,32 +150,44 @@ public class AvoidPit : MonoBehaviour
             return;
         }
 
-        if (currentCollider != null && currentCollider.CompareTag("pit"))
+        if (currentCollider == null)
         {
-            if (!currentCollider.enabled)  // Check if already filled
-            {
-                Debug.Log("This pit slot is already filled.");
-                return;
-            }
+            Debug.LogError("currentCollider is null in FillPit()");
+            return;
+        }
 
+        if (currentCollider.CompareTag("pit"))
+        {
             Debug.Log($"{woodFollow.name} placed in {currentCollider.name}.");
             woodFollow.transform.position = currentCollider.transform.position;
+            Collider2D woodCollider = woodFollow.GetComponent<Collider2D>();
+
+            if (woodCollider != null)
+            {
+                woodCollider.enabled = false;
+            }
+            
             woodFollow = null;
             woodLeft--;
 
-            currentCollider.enabled = false; // Disable this slot so it's not reusable
+            currentCollider.enabled = false;
 
-            Collider2D[] colliders = Physics2D.OverlapPointAll(currentCollider.transform.position);
+            float checkRadius = 0.1f;
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(currentCollider.transform.position, checkRadius);
+            Debug.Log($"Found {colliders.Length} colliders at {currentCollider.transform.position}");
+
             foreach (Collider2D col in colliders)
             {
+                Debug.Log($"Collider detected: {col.gameObject.name}, Tag: {col.tag}, IsTrigger: {col.isTrigger}");
+
                 if (col.CompareTag("Frame"))
                 {
                     col.enabled = false;
-                    Debug.Log("Frame collider disabled.");
+                    Debug.Log("Frame trigger collider disabled.");
                 }
             }
-            
-            if (woodLeft < 1)
+
+            if (woodLeft <= 0)
             {
                 isPitCovered = true;
             }
