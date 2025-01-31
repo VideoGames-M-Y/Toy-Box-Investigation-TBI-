@@ -112,11 +112,7 @@ public class AvoidPit : MonoBehaviour
             // Collect the wood piece
             CollectWood(currentCollider.gameObject);
         }
-        // else if (woodFollow != null && currentCollider != null && currentCollider.CompareTag("pit"))
-        // {
-        //     // Attempt to place the wood
-        //     FillPit();
-        // }
+
         else if (woodFollow != null)
         {
             // Drop the wood if not near a valid pit
@@ -219,16 +215,17 @@ public class AvoidPit : MonoBehaviour
 
     private void LevelComplete()
     {
-        Debug.Log("Level completed!");
-        nextLevelManager.ShowNextLevelButton();
-        nextLevelManager.ShowLevelCompleteText();
-        this.GetComponent<CharacterMovement>().enabled = false;
-        this.GetComponent<Mover>().enabled = false;
-        this.GetComponent<Animator>().enabled = false;
+        if(woodLeft == 0){
+            Debug.Log("Level completed!");
+            nextLevelManager.ShowNextLevelButton();
+            nextLevelManager.ShowLevelCompleteText();
+            StopPlayerMovement();
+        }
     }
 
     public void HandlePitFall(Vector3 pitPosition)
     {
+        StopPlayerMovement();
         StartCoroutine(ZoomInOnPit(pitPosition));
     }
 
@@ -292,6 +289,7 @@ public class AvoidPit : MonoBehaviour
 
     private void ZoomInOnRoad()
     {
+        StopPlayerMovement();
         StartCoroutine(ZoomInOnRoadCoroutine());
     }
 
@@ -347,5 +345,38 @@ public class AvoidPit : MonoBehaviour
         mainCamera.orthographicSize = originalCameraSize;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void StopPlayerMovement()
+    {
+        // Disable movement scripts
+        CharacterMovement characterMovement = GetComponent<CharacterMovement>();
+        if (characterMovement != null)
+        {
+            characterMovement.enabled = false;
+        }
+
+        Mover mover = GetComponent<Mover>();
+        if (mover != null)
+        {
+            mover.enabled = false;
+        }
+
+        // Stop Rigidbody movement
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.bodyType = RigidbodyType2D.Kinematic; // Fix for deprecated isKinematic
+        }
+
+        // Stop animations
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.speed = 0; // Freeze animation
+            animator.SetBool("IsMoving", false); // Ensure any movement state is reset
+        }
     }
 }
