@@ -81,15 +81,26 @@ public class RoadAndFlowers : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if (HasFlowerSlot() && (currentCollider.CompareTag("OtherFlower") || currentCollider.CompareTag("OrangeFlower")))
+        if (HasFlowerSlot() && currentCollider != null 
+            && (currentCollider.CompareTag("OtherFlower") || currentCollider.CompareTag("OrangeFlower"))
+            && currentCollider.gameObject != flowersFollow[0] 
+            && currentCollider.gameObject != flowersFollow[1])
         {
             CollectFlower(currentCollider.gameObject);
+            Debug.Log("Collecting flower: " + currentCollider.name);
         }
         else if (HasFlower())
         {
+            Debug.Log("Attempting to drop a flower.");
             DropFlower();
         }
+
+        Debug.Log("HandleInteraction called. Current flower state: [0] " 
+            + (flowersFollow[0] ? flowersFollow[0].name : "null") + 
+            ", [1] " + (flowersFollow[1] ? flowersFollow[1].name : "null"));
     }
+
+
 
     private void FixedUpdate()
     {
@@ -214,12 +225,25 @@ public class RoadAndFlowers : MonoBehaviour
     private void CollectFlower(GameObject flower)
     {
         if (flowersFollow[0] == null) flowersFollow[0] = flower;
-        else if (flowersFollow[1] == null) flowersFollow[1] = flower;
+        else if (flowersFollow[1] == null && flowersFollow[0] != flower) flowersFollow[1] = flower;
     }
 
-    private void DropFlower()
+   private void DropFlower()
     {
-        if (flowersFollow[1] != null) flowersFollow[1] = null;
-        else if (flowersFollow[0] != null) flowersFollow[0] = null;
+        if (flowersFollow[1] != null)
+        {
+            Debug.Log("Dropping flower from slot 1: " + flowersFollow[1].name);
+            flowersFollow[1].transform.parent = null; // Unparent the flower
+            flowersFollow[1].SetActive(true); // Ensure it's visible after dropping
+            flowersFollow[1] = null;
+        }
+        else if (flowersFollow[0] != null)
+        {
+            Debug.Log("Dropping flower from slot 0: " + flowersFollow[0].name);
+            flowersFollow[0].transform.parent = null; // Unparent the flower
+            flowersFollow[0].SetActive(true); // Ensure it's visible after dropping
+            flowersFollow[0] = null;
+        }
     }
+
 }
