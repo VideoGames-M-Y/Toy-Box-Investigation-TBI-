@@ -111,12 +111,17 @@ public class getKey : MonoBehaviour
 
         if (currentItemFollowingPlayer.CompareTag("BlueSock"))
         {
-            Destroy(currentItemFollowingPlayer);
+            Destroy(currentItemFollowingPlayer); // Remove the sock
             currentItemFollowingPlayer = null;
 
-            socksLeft--;
-            // UpdateSocksCounter();
+            // Find and destroy the lock (Laundry object)
+            GameObject laundryObject = GameObject.FindGameObjectWithTag("Laundry");
+            if (laundryObject != null)
+            {
+                Destroy(laundryObject);
+            }
 
+            socksLeft--;
             if (socksLeft <= 0)
             {
                 Debug.Log("All socks delivered!");
