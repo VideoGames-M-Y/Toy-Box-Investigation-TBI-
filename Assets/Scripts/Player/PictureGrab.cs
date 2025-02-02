@@ -53,8 +53,7 @@ public class PictureGrab : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Update the currentCollider only if it's null or prioritize frames over other colliders
-        if (currentCollider == null || collision.CompareTag("Frame"))
+        if (currentCollider == null || (!currentCollider.CompareTag("Frame") && collision.CompareTag("Frame")))
         {
             currentCollider = collision;
             canInteract = true;

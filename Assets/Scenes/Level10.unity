@@ -1848,7 +1848,6 @@ GameObject:
   - component: {fileID: 782335354}
   - component: {fileID: 782335353}
   - component: {fileID: 782335352}
-  - component: {fileID: 782335360}
   - component: {fileID: 782335361}
   m_Layer: 0
   m_Name: Boy
@@ -2063,25 +2062,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &782335360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 782335350}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 673eaba116b3d4fc6a503f3f89162334, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  totalPics: 1
-  nextLevelManager: {fileID: 757600098}
-  mainCamera: {fileID: 519420031}
-  zoomDuration: 2
-  zoomSize: 3
-  wrongItemPopup: {fileID: 0}
-  waitTime: 2
 --- !u!114 &782335361
 MonoBehaviour:
   m_ObjectHideFlags: 0
