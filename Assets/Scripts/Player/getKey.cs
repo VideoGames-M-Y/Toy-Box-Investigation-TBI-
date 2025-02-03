@@ -56,10 +56,14 @@ public class getKey : MonoBehaviour
     {
         if (canInteract && Input.GetKeyDown(KeyCode.Space))
         {
-            if (KeysFollow.Count < totalKeys)
+            if (currentCollider != null && !currentCollider.gameObject.CompareTag("Lock"))
+            {
                 HandleInteraction();
-            else
+            }
+            else if (KeysFollow.Count > 0) // Allow dropping even with one key
+            {
                 DropItem();
+            }
         }
     }
 
@@ -84,7 +88,7 @@ public class getKey : MonoBehaviour
         if (collision == currentCollider)
         {
             currentCollider = null;
-            canInteract = false;
+            
         }
 
         Debug.Log($"Exited trigger with {collision.tag}");
@@ -111,41 +115,56 @@ public class getKey : MonoBehaviour
     {
         if (KeysFollow.Count > 0)
         {
-            Debug.Log("Dropped all collected keys.");
-            KeysFollow.Clear();
+            GameObject keyToDrop = KeysFollow[KeysFollow.Count - 1]; // Remove the last collected key
+            KeysFollow.RemoveAt(KeysFollow.Count - 1);
+
+            keyToDrop.transform.position = transform.position + Vector3.down; // Drop slightly below the player
+            keyToDrop.SetActive(true); // Ensure it's active in the scene
+
+            Debug.Log($"Dropped {keyToDrop.name}. Remaining keys: {KeysFollow.Count}");
         }
     }
 
     private void DeliverItem()
     {
-        Debug.Log($"Delivering {KeysFollow.Count} keys.");
+        if(KeysFollow.Count == totalKeys){
+            Debug.Log($"Delivering {KeysFollow.Count} keys.");
 
-        List<GameObject> keysToRemove = new List<GameObject>();
+            List<GameObject> keysToRemove = new List<GameObject>();
+            GameObject badKey = null;
 
-        foreach (GameObject key in KeysFollow)
-        {
-            if (key.CompareTag("correctKey"))
+            foreach (GameObject key in KeysFollow)
             {
-                Destroy(key);
-                keysToRemove.Add(key);
-                KeysLeft--;
+                if (key.CompareTag("correctKey"))
+                {
+                    Destroy(key);
+                    keysToRemove.Add(key);
+                    KeysLeft--;
+                }
+                else
+                {
+                badKey = key; 
+                }
             }
-            else
+
+            foreach (GameObject key in keysToRemove)
             {
-                ZoomInOnKey(key);
+                KeysFollow.Remove(key);
+            }
+
+            if (KeysLeft <= 0)
+            {
+                Debug.Log("All keys delivered!");
+                GameObject[] lockObjects = GameObject.FindGameObjectsWithTag("Lock");
+                foreach (GameObject lockObject in lockObjects)
+                {
+                    Destroy(lockObject);
+                }
+                LevelComplete();
                 return;
             }
-        }
 
-        foreach (GameObject key in keysToRemove)
-        {
-            KeysFollow.Remove(key);
-        }
-
-        if (KeysLeft <= 0)
-        {
-            Debug.Log("All keys delivered!");
-            LevelComplete();
+            ZoomInOnKey(badKey);
         }
     }
 
@@ -215,22 +234,6 @@ public class getKey : MonoBehaviour
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-
-    // private void FixedUpdate()
-    // {
-    //     if (KeysFollow != null)
-    //     {
-    //         foreach (GameObject key in KeysFollow)
-    //         {
-    //             key.transform.position = Vector2.Lerp(
-    //                 key.transform.position,
-    //                 transform.position,
-    //                 Time.deltaTime * 5f
-    //             );
-    //         }
-    //     }
-    // }
 
     private void FixedUpdate()
     {
