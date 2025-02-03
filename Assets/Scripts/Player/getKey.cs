@@ -56,14 +56,7 @@ public class getKey : MonoBehaviour
     {
         if (canInteract && Input.GetKeyDown(KeyCode.Space))
         {
-            if (currentCollider != null && !currentCollider.gameObject.CompareTag("Lock"))
-            {
-                HandleInteraction();
-            }
-            else if (KeysFollow.Count > 0) // Allow dropping even with one key
-            {
-                DropItem();
-            }
+            HandleInteraction();
         }
     }
 
@@ -99,6 +92,10 @@ public class getKey : MonoBehaviour
         if (currentCollider != null && !currentCollider.gameObject.CompareTag("Lock"))
         {
             GrabItem(currentCollider.gameObject);
+        }
+        else if (IsHoldingItem())
+        {
+            DropItem();
         }
     }
 
