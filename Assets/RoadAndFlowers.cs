@@ -17,7 +17,7 @@ public class RoadAndFlowers : MonoBehaviour
     [SerializeField] private GameObject wrongRoadPopUp;
     [SerializeField] private GameObject wrongBothPopUp;
     [SerializeField] private float waitTime = 2f;
-    [SerializeField] private float flowerOffset = 0.5f;
+    [SerializeField] private float flowerOffset = 1.5f;
     private Vector3 originalCameraPosition;
     private float originalCameraSize;
 

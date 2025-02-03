@@ -2,25 +2,31 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class getKey : MonoBehaviour
 {
-    [SerializeField] private int totalKeys = 1; // Total number of socks to collect
+    [SerializeField] private int totalKeys = 2; // Total number of socks to collect
     [SerializeField] private GameObject wrongItemPopup; // UI Popup for wrong item
     [SerializeField] private GameObject RoadNotSafePopUp;
     [SerializeField] private Camera mainCamera; // Reference to the main camera
     [SerializeField] private float zoomDuration = 3f; // Duration of the zoom effect
     [SerializeField] private float zoomSize = 3f; // Camera size when zoomed in
-    private int socksLeft;
-    private GameObject currentItemFollowingPlayer = null; // Tracks the item following the Player
+    private int KeysLeft;
+    // private GameObject currentItemFollowingPlayer = null; // Tracks the item following the Player
+    private List<GameObject> KeysFollow = new List<GameObject>(); 
     private Collider2D currentCollider;
     [SerializeField] private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
     [SerializeField] private float waitTime = 2f; // Time to wait before restarting the scene
     private Vector3 originalCameraPosition;
     private float originalCameraSize;
+    [SerializeField] private float keyOffset = 0.5f;
+    private bool canInteract = false;
 
     void Start()
     {
+        KeysLeft = totalKeys;
+    
         if (nextLevelManager == null)
         {
             Debug.LogError("nextLevelManager is not assigned in the Inspector!");
@@ -48,26 +54,24 @@ public class getKey : MonoBehaviour
 
     void Update()
     {
-        if (currentItemFollowingPlayer == null && Input.GetKeyDown(KeyCode.Space))
+        if (canInteract && Input.GetKeyDown(KeyCode.Space))
         {
-            HandleInteraction();
-        }
-        else if (currentItemFollowingPlayer != null && Input.GetKeyDown(KeyCode.Space))
-        {
-            DropItem();
+            if (KeysFollow.Count < totalKeys)
+                HandleInteraction();
+            else
+                DropItem();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         currentCollider = collision;
+        canInteract = true;
 
-        if (collision.CompareTag("Laundry") && currentItemFollowingPlayer != null)
+        if (collision.CompareTag("Lock") && KeysFollow.Count > 0)
         {
             DeliverItem();
         }
-
-        Debug.Log($"Entered trigger with {collision.tag}");
 
         if (collision.CompareTag("road"))
         {
@@ -80,6 +84,7 @@ public class getKey : MonoBehaviour
         if (collision == currentCollider)
         {
             currentCollider = null;
+            canInteract = false;
         }
 
         Debug.Log($"Exited trigger with {collision.tag}");
@@ -87,7 +92,7 @@ public class getKey : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if (currentCollider != null && !currentCollider.gameObject.CompareTag("Laundry"))
+        if (currentCollider != null && !currentCollider.gameObject.CompareTag("Lock"))
         {
             GrabItem(currentCollider.gameObject);
         }
@@ -95,56 +100,65 @@ public class getKey : MonoBehaviour
 
     private void GrabItem(GameObject item)
     {
-        currentItemFollowingPlayer = item;
-        Debug.Log($"{item.name} is now following the Player.");
+        if (!KeysFollow.Contains(item) && KeysFollow.Count < totalKeys) 
+        {
+            KeysFollow.Add(item);
+            Debug.Log($"{item.name} is now following the Player.");
+        }
     }
 
     public void DropItem()
     {
-        Debug.Log($"{currentItemFollowingPlayer.name} dropped.");
-        currentItemFollowingPlayer = null;
+        if (KeysFollow.Count > 0)
+        {
+            Debug.Log("Dropped all collected keys.");
+            KeysFollow.Clear();
+        }
     }
 
     private void DeliverItem()
     {
-        Debug.Log($"{currentItemFollowingPlayer.name} delivered to Laundry.");
+        Debug.Log($"Delivering {KeysFollow.Count} keys.");
 
-        if (currentItemFollowingPlayer.CompareTag("BlueSock"))
+        List<GameObject> keysToRemove = new List<GameObject>();
+
+        foreach (GameObject key in KeysFollow)
         {
-            Destroy(currentItemFollowingPlayer); // Remove the sock
-            currentItemFollowingPlayer = null;
-
-            // Find and destroy the lock (Laundry object)
-            GameObject laundryObject = GameObject.FindGameObjectWithTag("Laundry");
-            if (laundryObject != null)
+            if (key.CompareTag("correctKey"))
             {
-                Destroy(laundryObject);
+                Destroy(key);
+                keysToRemove.Add(key);
+                KeysLeft--;
             }
-
-            socksLeft--;
-            if (socksLeft <= 0)
+            else
             {
-                Debug.Log("All socks delivered!");
-                LevelComplete();
+                ZoomInOnKey(key);
+                return;
             }
         }
-        else
+
+        foreach (GameObject key in keysToRemove)
         {
-            ZoomInOnKey();
+            KeysFollow.Remove(key);
+        }
+
+        if (KeysLeft <= 0)
+        {
+            Debug.Log("All keys delivered!");
+            LevelComplete();
         }
     }
 
-    private void ZoomInOnKey()
+    private void ZoomInOnKey(GameObject currentItemZoom)
     {
         StopPlayerMovement();
-        StartCoroutine(HandleWrongItem());
+        StartCoroutine(HandleWrongItem(currentItemZoom));
     }
 
-    private IEnumerator HandleWrongItem()
+    private IEnumerator HandleWrongItem(GameObject currentItemZoom)
     {
 
-        GameObject currentItemZoom = currentItemFollowingPlayer;
-        currentItemFollowingPlayer = null;
+        KeysFollow.Clear();
         // Make the player disappear (hide its renderer or deactivate)
         SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
         if (playerRenderer != null)
@@ -203,15 +217,37 @@ public class getKey : MonoBehaviour
     }
 
 
+    // private void FixedUpdate()
+    // {
+    //     if (KeysFollow != null)
+    //     {
+    //         foreach (GameObject key in KeysFollow)
+    //         {
+    //             key.transform.position = Vector2.Lerp(
+    //                 key.transform.position,
+    //                 transform.position,
+    //                 Time.deltaTime * 5f
+    //             );
+    //         }
+    //     }
+    // }
+
     private void FixedUpdate()
     {
-        if (currentItemFollowingPlayer != null)
+        PositionKeys();
+    }
+
+    private void PositionKeys()
+    {
+        Vector2 basePosition = transform.position;
+
+        for (int i = 0; i < KeysFollow.Count; i++)
         {
-            currentItemFollowingPlayer.transform.position = Vector2.Lerp(
-                currentItemFollowingPlayer.transform.position,
-                transform.position,
-                Time.deltaTime * 5f
-            );
+            if (KeysFollow[i] != null)
+            {
+                Vector2 offset = new Vector2((i % 2 == 0 ? -1 : 1) * (i / 2 + 1) * keyOffset, 0);
+                KeysFollow[i].transform.position = Vector2.Lerp(KeysFollow[i].transform.position, basePosition + offset, Time.deltaTime * 5f);
+            }
         }
     }
 
@@ -223,19 +259,19 @@ public class getKey : MonoBehaviour
         StopPlayerMovement();
     }
 
-    public bool HasSocksLeft()
+    public bool HasKeysLeft()
     {
-        return socksLeft > 0;
+        return KeysLeft > 0;
     }
 
-    public bool HasBlueSock()
+    public bool HasCorrectKey()
     {
-        return currentItemFollowingPlayer != null && currentItemFollowingPlayer.CompareTag("BlueSock");
+        return KeysFollow.Exists(key => key.CompareTag("correctKey"));
     }
 
     public bool IsHoldingItem()
     {
-        return currentItemFollowingPlayer != null;
+        return KeysFollow != null;
     }
 
     private void ZoomInOnRoad()
@@ -246,7 +282,7 @@ public class getKey : MonoBehaviour
 
     private IEnumerator ZoomInOnRoadCoroutine()
     {
-        currentItemFollowingPlayer = null;
+        KeysFollow = null;
 
         SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
         if (playerRenderer != null)
