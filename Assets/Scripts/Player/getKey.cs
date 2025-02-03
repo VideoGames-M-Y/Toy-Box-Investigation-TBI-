@@ -118,7 +118,7 @@ public class getKey : MonoBehaviour
             GameObject keyToDrop = KeysFollow[KeysFollow.Count - 1]; // Remove the last collected key
             KeysFollow.RemoveAt(KeysFollow.Count - 1);
 
-            keyToDrop.transform.position = transform.position + Vector3.down; // Drop slightly below the player
+            // keyToDrop.transform.position = transform.position + Vector3.down; // Drop slightly below the player
             keyToDrop.SetActive(true); // Ensure it's active in the scene
 
             Debug.Log($"Dropped {keyToDrop.name}. Remaining keys: {KeysFollow.Count}");
