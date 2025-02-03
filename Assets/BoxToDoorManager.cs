@@ -11,6 +11,7 @@ public class BoxToDoorManager : MonoBehaviour
     private Collider2D currentCollider;
     [SerializeField] private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
     [SerializeField] private GameObject Doorway; // Reference to the Doorway
+    [SerializeField] private GameObject X; // Reference to the X
 
     void Start()
     {
@@ -18,6 +19,7 @@ public class BoxToDoorManager : MonoBehaviour
         {
             Debug.LogError("nextLevelManager is not assigned in the Inspector!");
         }
+        if (X != null) {X.SetActive(false);}
     }
 
     void Update()
@@ -36,9 +38,15 @@ public class BoxToDoorManager : MonoBehaviour
     {
         currentCollider = collision;
 
-        if (collision.CompareTag("Doorway") && currentItemFollowingPlayer.CompareTag("CorrectItem"))
+        if (currentItemFollowingPlayer == null)
         {
-            OpenDoor();
+            return;
+        }
+
+        if (collision.CompareTag("Doorway"))
+        {
+            if (currentItemFollowingPlayer.CompareTag("CorrectItem")){OpenDoor();}
+            else if (X != null) {X.SetActive(true);}
         }
 
         if (collision.CompareTag("Finish"))
@@ -55,7 +63,7 @@ public class BoxToDoorManager : MonoBehaviour
         {
             currentCollider = null;
         }
-
+        if (X != null) {X.SetActive(false);}
         Debug.Log($"Exited trigger with {collision.tag}");
     }
 
