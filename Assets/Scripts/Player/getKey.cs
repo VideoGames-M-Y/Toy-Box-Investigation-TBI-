@@ -106,6 +106,10 @@ public class getKey : MonoBehaviour
             KeysFollow.Add(item);
             Debug.Log($"{item.name} is now following the Player.");
         }
+        else if (KeysFollow.Contains(item))
+        {
+            DropItem();
+        }
     }
 
     public void DropItem()
