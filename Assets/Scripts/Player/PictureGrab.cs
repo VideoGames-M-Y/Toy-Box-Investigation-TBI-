@@ -53,7 +53,8 @@ public class PictureGrab : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (currentCollider == null || (!currentCollider.CompareTag("Frame") && collision.CompareTag("Frame")))
+        // Update the currentCollider only if it's null or prioritize frames over other colliders
+        if (currentCollider == null || collision.CompareTag("Frame"))
         {
             currentCollider = collision;
             canInteract = true;
@@ -184,10 +185,12 @@ public class PictureGrab : MonoBehaviour
         Debug.Log("Level completed!");
         nextLevelManager.ShowNextLevelButton();
         nextLevelManager.ShowLevelCompleteText();
+        StopPlayerMovement();
     }
 
     private IEnumerator WrongMatch()
     {
+        StopPlayerMovement();
         GameObject picZoom = picFollow;
         picFollow = null;
         
@@ -237,5 +240,38 @@ public class PictureGrab : MonoBehaviour
         mainCamera.orthographicSize = originalCameraSize;
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void StopPlayerMovement()
+    {
+        // Disable movement scripts
+        CharacterMovement characterMovement = GetComponent<CharacterMovement>();
+        if (characterMovement != null)
+        {
+            characterMovement.enabled = false;
+        }
+
+        Mover mover = GetComponent<Mover>();
+        if (mover != null)
+        {
+            mover.enabled = false;
+        }
+
+        // Stop Rigidbody movement
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.bodyType = RigidbodyType2D.Kinematic; // Fix for deprecated isKinematic
+        }
+
+        // Stop animations
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.speed = 0; // Freeze animation
+            animator.SetBool("IsMoving", false); // Ensure any movement state is reset
+        }
     }
 }

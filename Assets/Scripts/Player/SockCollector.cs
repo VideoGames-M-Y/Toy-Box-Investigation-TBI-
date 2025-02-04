@@ -131,7 +131,7 @@ public class SockCollector : MonoBehaviour
 
     private IEnumerator HandleWrongItem()
     {
-
+        StopPlayerMovement();
         GameObject currentItemZoom = currentItemFollowingPlayer;
         currentItemFollowingPlayer = null;
         // Make the player disappear (hide its renderer or deactivate)
@@ -213,6 +213,7 @@ public class SockCollector : MonoBehaviour
         Debug.Log("Level completed!");
         nextLevelManager.ShowLevelCompleteText();
         nextLevelManager.ShowNextLevelButton();
+        StopPlayerMovement();
     }
 
     public bool HasSocksLeft()
@@ -228,5 +229,38 @@ public class SockCollector : MonoBehaviour
     public bool IsHoldingItem()
     {
         return currentItemFollowingPlayer != null;
+    }
+
+    private void StopPlayerMovement()
+    {
+        // Disable movement scripts
+        CharacterMovement characterMovement = GetComponent<CharacterMovement>();
+        if (characterMovement != null)
+        {
+            characterMovement.enabled = false;
+        }
+
+        Mover mover = GetComponent<Mover>();
+        if (mover != null)
+        {
+            mover.enabled = false;
+        }
+
+        // Stop Rigidbody movement
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.bodyType = RigidbodyType2D.Kinematic; // Fix for deprecated isKinematic
+        }
+
+        // Stop animations
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.speed = 0; // Freeze animation
+            animator.SetBool("IsMoving", false); // Ensure any movement state is reset
+        }
     }
 }
