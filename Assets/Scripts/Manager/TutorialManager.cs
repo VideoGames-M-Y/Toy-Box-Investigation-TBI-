@@ -154,7 +154,7 @@ public class TutorialManager : MonoBehaviour
 
     private void RestartScene()
     {
-         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void ReturnToHome()

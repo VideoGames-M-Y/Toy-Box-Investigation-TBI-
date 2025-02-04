@@ -178,9 +178,8 @@ public class SockCollector : MonoBehaviour
         mainCamera.orthographicSize = zoomSize;
 
         // Briefly pause before restarting (reduce wait time)
-        yield return new WaitForSecondsRealtime(waitTime); 
+        yield return new WaitForSecondsRealtime(waitTime);
 
-        // Reset the scene
         if (playerRenderer != null)
         {
             playerRenderer.enabled = true; // Restore the player's sprite before the scene reloads
