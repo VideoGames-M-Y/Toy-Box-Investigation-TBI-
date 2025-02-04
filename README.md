@@ -18,13 +18,14 @@
 במהלך פיתוח המשחק נעשה שימוש במשאבים שונים:
 ### גרפיקה ואנימציות
 
-* תמונות - [Unity Asset Store – 2D Characters Family](https://assetstore.unity.com/packages/2d/characters/2d-characters-family-136183)
-* דמות השחקן - [iStockPhoto](https://www.istockphoto.com/)
+* דמות השחקן - [Unity Asset Store – 2D Characters Family](https://assetstore.unity.com/packages/2d/characters/2d-characters-family-136183)
+* תמונות - [iStockPhoto](https://www.istockphoto.com/)
 
 ### כלים וספריות
 
-* מנוע המשחק שבו פותח הפרויקט - Unity
-* מנוע שבו יצרנו את הטריילר - Movie Maker
+* מנוע המשחק שבו פותח הפרויקט - [Unity](https://unity.com/)
+* לטובת ייצור הטריילר - Movie Maker
+* לטובת אובייקטים, רקעים ותמונות - ChatGPT
 
 ### ליווי מקצועי
 * אראל
