@@ -19,7 +19,10 @@ public class BoxToDoorManager : MonoBehaviour
         {
             Debug.LogError("nextLevelManager is not assigned in the Inspector!");
         }
-        if (X != null) {X.SetActive(false);}
+        if (X != null)
+        {
+            X.SetActive(false);
+        }
     }
 
     void Update()
@@ -45,8 +48,14 @@ public class BoxToDoorManager : MonoBehaviour
 
         if (collision.CompareTag("Doorway"))
         {
-            if (currentItemFollowingPlayer.CompareTag("CorrectItem")){OpenDoor();}
-            else if (X != null) {X.SetActive(true);}
+            if (currentItemFollowingPlayer.CompareTag("CorrectItem"))
+            {
+                OpenDoor();
+            }
+            else if (X != null) 
+            {
+                X.SetActive(true);
+            }
         }
 
         if (collision.CompareTag("Finish"))
@@ -63,7 +72,10 @@ public class BoxToDoorManager : MonoBehaviour
         {
             currentCollider = null;
         }
-        if (X != null) {X.SetActive(false);}
+        if (X != null) 
+        {
+            X.SetActive(false);
+        }
         Debug.Log($"Exited trigger with {collision.tag}");
     }
 

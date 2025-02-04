@@ -37,7 +37,6 @@ public class PictureGrab : MonoBehaviour
         {
             wrongItemPopup.SetActive(false);
         }
-        
         originalCameraPosition = mainCamera.transform.position;
         originalCameraSize = mainCamera.orthographicSize;
     }
@@ -193,7 +192,6 @@ public class PictureGrab : MonoBehaviour
         StopPlayerMovement();
         GameObject picZoom = picFollow;
         picFollow = null;
-        
         SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
         if (playerRenderer != null)
         {

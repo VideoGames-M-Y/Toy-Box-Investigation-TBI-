@@ -80,7 +80,6 @@ public class getKey : MonoBehaviour
         if (collision == currentCollider)
         {
             currentCollider = null;
-        
         }
 
         Debug.Log($"Exited trigger with {collision.tag}");
@@ -292,14 +291,13 @@ public class getKey : MonoBehaviour
         {
             playerRenderer.enabled = false;
         }
-        
         // Get the player's position to zoom in on
         Vector3 playerPosition = transform.position; // Get the player's current position
         Vector3 targetPosition = new Vector3(playerPosition.x, playerPosition.y, mainCamera.transform.position.z);
 
         float elapsedTime = 0f;
 
-        if (RoadNotSafePopUp!= null)
+        if(RoadNotSafePopUp!= null)
         {
             RoadNotSafePopUp.SetActive(true);
         }
