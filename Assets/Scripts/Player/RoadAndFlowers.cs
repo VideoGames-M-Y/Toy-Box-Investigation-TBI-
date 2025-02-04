@@ -25,7 +25,6 @@ public class RoadAndFlowers : MonoBehaviour
     {
         if (mainCamera == null) mainCamera = Camera.main;
         FlowersLeft = totalFlowers;
-        
         if (wrongFlowersPopup) wrongFlowersPopup.SetActive(false);
         if (wrongRoadPopUp) wrongRoadPopUp.SetActive(false);
         if (wrongBothPopUp) wrongBothPopUp.SetActive(false);
@@ -48,17 +47,19 @@ public class RoadAndFlowers : MonoBehaviour
         canInteract = true;
         Debug.Log($"Entered trigger with {collision.name}");
 
-        if (collision.CompareTag("Barrier")){
+        if (collision.CompareTag("Barrier"))
+        {
             if (CheckFlowers())
             {
-               HandlePitFall(collision.transform.position, "road");
+                HandlePitFall(collision.transform.position, "road");
             }
             else
             {
                 HandlePitFall(collision.transform.position, "both");
             }
         }
-        else if (collision.CompareTag("bike")){
+        else if (collision.CompareTag("bike"))
+        {
             if (CheckFlowers())
             {
                 LevelComplete();
@@ -67,7 +68,7 @@ public class RoadAndFlowers : MonoBehaviour
             {
                 HandlePitFall(collision.transform.position, "flowers");
             }
-        } 
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -81,10 +82,7 @@ public class RoadAndFlowers : MonoBehaviour
 
     private void HandleInteraction()
     {
-        if (HasFlowerSlot() && currentCollider != null 
-            && (currentCollider.CompareTag("OtherFlower") || currentCollider.CompareTag("OrangeFlower"))
-            && currentCollider.gameObject != flowersFollow[0] 
-            && currentCollider.gameObject != flowersFollow[1])
+        if (HasFlowerSlot() && currentCollider != null && (currentCollider.CompareTag("OtherFlower") || currentCollider.CompareTag("OrangeFlower")) && currentCollider.gameObject != flowersFollow[0] && currentCollider.gameObject != flowersFollow[1])
         {
             CollectFlower(currentCollider.gameObject);
             Debug.Log("Collecting flower: " + currentCollider.name);
@@ -95,9 +93,7 @@ public class RoadAndFlowers : MonoBehaviour
             DropFlower();
         }
 
-        Debug.Log("HandleInteraction called. Current flower state: [0] " 
-            + (flowersFollow[0] ? flowersFollow[0].name : "null") + 
-            ", [1] " + (flowersFollow[1] ? flowersFollow[1].name : "null"));
+        Debug.Log("HandleInteraction called. Current flower state: [0] " + (flowersFollow[0] ? flowersFollow[0].name : "null") + ", [1] " + (flowersFollow[1] ? flowersFollow[1].name : "null"));
     }
 
 
@@ -215,7 +211,8 @@ public class RoadAndFlowers : MonoBehaviour
         return flowersFollow[0] == null || flowersFollow[1] == null;
     }
 
-    private bool HasFlower(){
+    private bool HasFlower()
+    {
         return flowersFollow[0] != null || flowersFollow[1] != null;
     }
 

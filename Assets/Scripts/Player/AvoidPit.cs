@@ -14,7 +14,7 @@ public class AvoidPit : MonoBehaviour
     [SerializeField] private float zoomDuration = 2f; // Duration of the camera zoom effect
     [SerializeField] private float zoomSize = 3f; // Camera size when zoomed in
     [SerializeField] private GameObject wrongItemPopup; // UI Popup for wrong item
-    [SerializeField] private GameObject RoadNotSafePopUp; 
+    [SerializeField] private GameObject RoadNotSafePopUp;
     [SerializeField] private float waitTime = 2f; // Time to wait before restarting the scene
     private Vector3 originalCameraPosition;
     private float originalCameraSize;
@@ -38,7 +38,7 @@ public class AvoidPit : MonoBehaviour
         {
             wrongItemPopup.SetActive(false);
         }
-        
+
         if (RoadNotSafePopUp != null)
         {
             RoadNotSafePopUp.SetActive(false);
@@ -87,7 +87,6 @@ public class AvoidPit : MonoBehaviour
         {
             ZoomInOnRoad();
         }
-        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -215,7 +214,8 @@ public class AvoidPit : MonoBehaviour
 
     private void LevelComplete()
     {
-        if(woodLeft == 0){
+        if(woodLeft == 0)
+        {
             Debug.Log("Level completed!");
             nextLevelManager.ShowNextLevelButton();
             nextLevelManager.ShowLevelCompleteText();

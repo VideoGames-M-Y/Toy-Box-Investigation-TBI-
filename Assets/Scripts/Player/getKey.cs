@@ -126,7 +126,7 @@ public class getKey : MonoBehaviour
 
     private void DeliverItem()
     {
-        if(KeysFollow.Count == totalKeys)
+        if (KeysFollow.Count == totalKeys)
         {
             Debug.Log($"Delivering {KeysFollow.Count} keys.");
 
@@ -297,7 +297,7 @@ public class getKey : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        if(RoadNotSafePopUp!= null)
+        if (RoadNotSafePopUp != null)
         {
             RoadNotSafePopUp.SetActive(true);
         }

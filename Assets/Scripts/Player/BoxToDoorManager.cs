@@ -52,7 +52,7 @@ public class BoxToDoorManager : MonoBehaviour
             {
                 OpenDoor();
             }
-            else if (X != null) 
+            else if (X != null)
             {
                 X.SetActive(true);
             }
@@ -72,7 +72,7 @@ public class BoxToDoorManager : MonoBehaviour
         {
             currentCollider = null;
         }
-        if (X != null) 
+        if (X != null)
         {
             X.SetActive(false);
         }
