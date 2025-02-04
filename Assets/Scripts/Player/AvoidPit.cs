@@ -214,7 +214,7 @@ public class AvoidPit : MonoBehaviour
 
     private void LevelComplete()
     {
-        if(woodLeft == 0)
+        if (woodLeft == 0)
         {
             Debug.Log("Level completed!");
             nextLevelManager.ShowNextLevelButton();
@@ -302,7 +302,6 @@ public class AvoidPit : MonoBehaviour
         {
             playerRenderer.enabled = false;
         }
-        
         // Get the player's position to zoom in on
         Vector3 playerPosition = transform.position; // Get the player's current position
         Vector3 targetPosition = new Vector3(playerPosition.x, playerPosition.y, mainCamera.transform.position.z);

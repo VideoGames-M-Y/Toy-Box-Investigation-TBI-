@@ -222,7 +222,7 @@ public class RoadAndFlowers : MonoBehaviour
         else if (flowersFollow[1] == null && flowersFollow[0] != flower) flowersFollow[1] = flower;
     }
 
-   private void DropFlower()
+    private void DropFlower()
     {
         if (flowersFollow[1] != null)
         {

@@ -10,7 +10,7 @@ public class SafeCross : MonoBehaviour
     [SerializeField] private float zoomDuration = 2f; // Duration of the camera zoom effect
     [SerializeField] private float zoomSize = 3f; // Camera size when zoomed in
     [SerializeField] private GameObject CrossedOnRedPopUp; // UI Popup for wrong item
-    [SerializeField] private GameObject RoadNotSafePopUp; 
+    [SerializeField] private GameObject RoadNotSafePopUp;
     [SerializeField] private float waitTime = 2f; // Time to wait before restarting the scene
     [SerializeField] private GameObject Arrow;
     private Vector3 originalCameraPosition;
@@ -32,7 +32,6 @@ public class SafeCross : MonoBehaviour
         {
             CrossedOnRedPopUp.SetActive(false);
         }
-        
         if (RoadNotSafePopUp != null)
         {
             RoadNotSafePopUp.SetActive(false);
