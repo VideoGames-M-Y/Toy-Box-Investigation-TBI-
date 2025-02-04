@@ -308,7 +308,7 @@ public class AvoidPit : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        if (RoadNotSafePopUp!= null)
+        if (RoadNotSafePopUp != null)
         {
             RoadNotSafePopUp.SetActive(true);
         }
