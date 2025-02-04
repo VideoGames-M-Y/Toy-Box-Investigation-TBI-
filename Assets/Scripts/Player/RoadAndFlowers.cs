@@ -122,13 +122,12 @@ public class RoadAndFlowers : MonoBehaviour
 
     public void HandlePitFall(Vector3 pitPosition, string failType)
     {
+        StopPlayerMovement();
         StartCoroutine(ZoomInOnPit(pitPosition, failType));
     }
 
     private IEnumerator ZoomInOnPit(Vector3 pitPosition, string failType)
     {
-        this.GetComponent<CharacterMovement>().enabled = false;
-        this.GetComponent<Mover>().enabled = false;
         DropFlower();
         DropFlower();
 
@@ -208,9 +207,7 @@ public class RoadAndFlowers : MonoBehaviour
         Debug.Log("Level completed!");
         nextLevelManager.ShowNextLevelButton();
         nextLevelManager.ShowLevelCompleteText();
-        this.GetComponent<CharacterMovement>().enabled = false;
-        this.GetComponent<Mover>().enabled = false;
-        this.GetComponent<Animator>().enabled = false;
+        StopPlayerMovement();
     }
 
     private bool HasFlowerSlot()
@@ -243,6 +240,39 @@ public class RoadAndFlowers : MonoBehaviour
             flowersFollow[0].transform.parent = null; // Unparent the flower
             flowersFollow[0].SetActive(true); // Ensure it's visible after dropping
             flowersFollow[0] = null;
+        }
+    }
+
+    private void StopPlayerMovement()
+    {
+        // Disable movement scripts
+        CharacterMovement characterMovement = GetComponent<CharacterMovement>();
+        if (characterMovement != null)
+        {
+            characterMovement.enabled = false;
+        }
+
+        Mover mover = GetComponent<Mover>();
+        if (mover != null)
+        {
+            mover.enabled = false;
+        }
+
+        // Stop Rigidbody movement
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.bodyType = RigidbodyType2D.Kinematic; // Fix for deprecated isKinematic
+        }
+
+        // Stop animations
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.speed = 0; // Freeze animation
+            animator.SetBool("IsMoving", false); // Ensure any movement state is reset
         }
     }
 
