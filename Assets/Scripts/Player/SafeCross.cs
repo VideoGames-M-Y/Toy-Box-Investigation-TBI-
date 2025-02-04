@@ -68,6 +68,7 @@ public class SafeCross : MonoBehaviour
         Debug.Log("Level completed!");
         nextLevelManager.ShowNextLevelButton();
         nextLevelManager.ShowLevelCompleteText();
+        Arrow.SetActive(false);
         StopPlayerMovement();
     }
 
