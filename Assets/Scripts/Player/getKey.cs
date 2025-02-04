@@ -13,8 +13,7 @@ public class getKey : MonoBehaviour
     [SerializeField] private float zoomDuration = 3f; // Duration of the zoom effect
     [SerializeField] private float zoomSize = 3f; // Camera size when zoomed in
     private int KeysLeft;
-    // private GameObject currentItemFollowingPlayer = null; // Tracks the item following the Player
-    private List<GameObject> KeysFollow = new List<GameObject>(); 
+    private List<GameObject> KeysFollow = new List<GameObject>();
     private Collider2D currentCollider;
     [SerializeField] private NextLevelManager nextLevelManager; // Reference to the NextLevelManager
     [SerializeField] private float waitTime = 2f; // Time to wait before restarting the scene
@@ -26,7 +25,7 @@ public class getKey : MonoBehaviour
     void Start()
     {
         KeysLeft = totalKeys;
-    
+
         if (nextLevelManager == null)
         {
             Debug.LogError("nextLevelManager is not assigned in the Inspector!");
@@ -81,7 +80,7 @@ public class getKey : MonoBehaviour
         if (collision == currentCollider)
         {
             currentCollider = null;
-            
+        
         }
 
         Debug.Log($"Exited trigger with {collision.tag}");
@@ -101,7 +100,7 @@ public class getKey : MonoBehaviour
 
     private void GrabItem(GameObject item)
     {
-        if (!KeysFollow.Contains(item) && KeysFollow.Count < totalKeys) 
+        if (!KeysFollow.Contains(item) && KeysFollow.Count < totalKeys)
         {
             KeysFollow.Add(item);
             Debug.Log($"{item.name} is now following the Player.");
@@ -128,7 +127,8 @@ public class getKey : MonoBehaviour
 
     private void DeliverItem()
     {
-        if(KeysFollow.Count == totalKeys){
+        if(KeysFollow.Count == totalKeys)
+        {
             Debug.Log($"Delivering {KeysFollow.Count} keys.");
 
             List<GameObject> keysToRemove = new List<GameObject>();
@@ -144,7 +144,7 @@ public class getKey : MonoBehaviour
                 }
                 else
                 {
-                badKey = key; 
+                    badKey = key;
                 }
             }
 
@@ -223,9 +223,8 @@ public class getKey : MonoBehaviour
         mainCamera.orthographicSize = zoomSize;
 
         // Briefly pause before restarting (reduce wait time)
-        yield return new WaitForSecondsRealtime(waitTime); 
+        yield return new WaitForSecondsRealtime(waitTime);
 
-        // Reset the scene
         if (playerRenderer != null)
         {
             playerRenderer.enabled = true; // Restore the player's sprite before the scene reloads
