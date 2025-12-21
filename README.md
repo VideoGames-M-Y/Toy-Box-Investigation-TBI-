@@ -1,6 +1,6 @@
 # Toy-Box-Investigation(TBI)
 ---
-## https://matanyocheved.itch.io/toyboxinvestigation ##
+## https://matanyocheved.itch.io/toyboxinvestigations ##
 
 ## [Trailer](https://www.youtube.com/watch?v=wwz-GAZ6SNs)
 ---
